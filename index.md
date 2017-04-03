@@ -2,14 +2,14 @@
 
 [My Wordpress](https://andre5037.wordpress.com/category/productions/)
 
-### Modifications of [Davidbau's Complex Function Grapher](davidbau.com/conformal/)
+### Modifications of [Davidbau's Complex Function Grapher](http://davidbau.com/conformal/)
 
-[Current](https://magicgonads.github.io/current.html)
+[Current](current.html)
 
-[Grid](https://magicgonads.github.io/grid.html)
+[Grid](grid.html)
 
-[Smooth](https://magicgonads.github.io/smooth.html)
+[Smooth](smooth.html)
 
-[Web](https://magicgonads.github.io/web.html)
+[Web](web.html)
 
-[Curve](https://magicgonads.github.io/curve.html)
+[Curve](curve.html)
