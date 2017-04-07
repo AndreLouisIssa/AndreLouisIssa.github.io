@@ -18,8 +18,7 @@ function drawPly(){
   plyPos=createVector(plyPos.x+plyMov.x,plyPos.y+plyMov.y,0)
   plyMov=createVector(0,0,0);
   stroke(255,0,0);
-	ellipse(int(width/2),int(height/2),80, 80);
-  //ellipse(int(width/2+plyPos.x),int(height/2+plyPos.y),80, 80);
+  ellipse(int(width/2+plyPos.x),int(height/2+plyPos.y),80, 80);
 }
 
 function drawObj(){
