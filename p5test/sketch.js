@@ -3,6 +3,7 @@ var plyPos;
 const plySpd = 1;
 const plyEnable = 0;
 const canvasRatio = 0.975;
+
 function setup() {
   createCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
   fill(0);
