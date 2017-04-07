@@ -29,25 +29,25 @@ function drawObj(){
   ellipse(50, 50, 80, 80);
 }
 
-function mousePressed(){
-  drawObj()
-}
+//function mousePressed(){
+//  drawObj()
+//}
 
-function keyPressed(){
-  if (focused && plyEnable){
-		if (keyCode=="w"){
-			plyMov=plyMov.add(createVector(plySpd,0).rotate(plyAng));
-		}
-		else if (keyCode=="s"){
-			plyMov=plyMov.sub(createVector(plySpd,0).rotate(plyAng));
-		}
-		if (keyCode=="a"){
-			plyMov=plyMov.add(plyMov.rotate(HALF_PI).normalize()*plySpd);
-		}
-		else if (keyCode=="d"){
-			plyMov=plyMov.sub(plyMov.rotate(HALF_PI).normalize()*plySpd);
-		}
-		plyAng=atan2(plyMov.y,plyMov.x);
-  }
-  drawObj();
-}
+//function keyPressed(){
+//  if (focused && plyEnable){
+//		if (keyCode=="w"){
+//			plyMov=plyMov.add(createVector(plySpd,0).rotate(plyAng));
+//		}
+//		else if (keyCode=="s"){
+//			plyMov=plyMov.sub(createVector(plySpd,0).rotate(plyAng));
+//		}
+//		if (keyCode=="a"){
+//			plyMov=plyMov.add(plyMov.rotate(HALF_PI).normalize()*plySpd);
+//		}
+//		else if (keyCode=="d"){
+//			plyMov=plyMov.sub(plyMov.rotate(HALF_PI).normalize()*plySpd);
+//		}
+//		plyAng=atan2(plyMov.y,plyMov.x);
+//  }
+//  drawObj();
+//}
