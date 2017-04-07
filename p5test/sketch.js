@@ -2,9 +2,8 @@ var plyMov;
 var plyPos;
 const plySpd = 1;
 const plyEnable = 0;
-
+const canvasRatio = 0.975;
 function setup() {
-	const canvasRatio = 0.975;
   createCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
   fill(0);
 	strokeWeight(2);
