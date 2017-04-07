@@ -8,7 +8,8 @@ function setup() {
   createCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
   fill(0);
 	strokeWeight(2);
-	plyPos, plyMov = createVector(0,0,0);
+	plyPos = createVector(0,0,0);
+	plyMov = createVector(0,0,0);
 }
 
 function draw() {
