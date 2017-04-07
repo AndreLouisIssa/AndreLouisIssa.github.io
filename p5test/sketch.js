@@ -1,5 +1,5 @@
-var plyMov
-var plyPos
+var plyMov;
+var plyPos;
 const plySpd = 1;
 const plyEnable = 0;
 
