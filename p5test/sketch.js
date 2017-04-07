@@ -1,12 +1,14 @@
+var plyMov
+var plyPos
+const plySpd = 1;
+const plyEnable = 0;
+
 function setup() {
 	const canvasRatio = 0.975;
-    createCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
-    fill(0);
+  createCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
+  fill(0);
 	strokeWeight(2);
-	var plyMov = createVector(0,0,0);
-	var plyPos = createVector(0,0,0);
-	const plySpd = 1;
-	const plyEnable = 0;
+	plyPos, plyMov = createVector(0,0,0);
 }
 
 function draw() {
