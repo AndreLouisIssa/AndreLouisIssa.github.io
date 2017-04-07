@@ -7,13 +7,6 @@
             "request": "launch",
             "url": "https://magicgonads.github.io/p5test/index.html",
             "webRoot": "${workspaceRoot}"
-        },
-        {
-            "name": "Launch index.html (disable sourcemaps)",
-            "type": "chrome",
-            "request": "launch",
-            "sourceMaps": false,
-            "file": "${workspaceRoot}/index.html"
-        },
+        }
     ]
 }
