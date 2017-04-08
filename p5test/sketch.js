@@ -1,27 +1,52 @@
 var plyMov;
 var plyPos;
+var plyAng = 0;
 const plySpd = 1;
 const plyEnable = 1;
-const canvasRatio = 1;
+const plyRad = 25
+const canvasRatio = 0.8;
+var offX;
+var offY;
 
 function setup() {
   createCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
   fill(0);
 	strokeWeight(2);
-	plyPos = createVector(0,0,0);
-	plyMov = createVector(0,0,0);
+	plyPos = createVector(0,0);
+	plyMov = createVector(0,0);
+	offX = width/2
+	offY = height/2
 }
 
 function draw() {
+	push();
+	translate (offX, offY);
   background(0);
   drawPly();
+	drawObj();
+	pop();
 }
 
 function drawPly(){
-  plyPos=createVector(plyPos.x+plyMov.x,plyPos.y+plyMov.y,0)
-  plyMov=createVector(0,0,0);
+	if(keyIsPressed){
+		if (keyCode==100){
+			plyMov.add(p5.Vector.fromAngle(plyAng).mult(plySpd))
+		}
+		if (keyCode==97){
+			plyMov.sub(p5.Vector.fromAngle(plyAng).mult(plySpd));
+		}
+		if (keyCode==115){
+			plyMov.add(p5.Vector.fromAngle(plyAng+HALF_PI).mult(plySpd));
+		}
+		if (keyCode==119){
+			plyMov.sub(p5.Vector.fromAngle(plyAng+HALF_PI).mult(plySpd));
+		}
+	}
+  plyPos.add(plyMov);
+	plyPos.set([constrain(plyPos.x,plyRad-offX,offX-plyRad),constrain(plyPos.y,plyRad-offY,offY-plyRad)]);
+  plyMov.set([0,0,0]);
   stroke(255,0,0);
-  ellipse(int(width/2+plyPos.x),int(height/2+plyPos.y),80, 80);
+  ellipse(plyPos.x,plyPos.y,plyRad*2, plyRad*2);
 }
 
 function drawObj(){
@@ -29,27 +54,8 @@ function drawObj(){
   ellipse(50, 50, 80, 80);
 }
 
-function mousePressed(){
-  drawObj()
-}
-
-function keyPressed(){
-  if (focused && plyEnable){
-		if (keyCode=="w"){
-			plyMov=plyMov.add(createVector(plySpd,0).rotate(plyAng));
-		}
-		else if (keyCode=="s"){
-			plyMov=plyMov.sub(createVector(plySpd,0).rotate(plyAng));
-		}
-		if (keyCode=="a"){
-			plyMov=plyMov.add(plyMov.rotate(HALF_PI).normalize().setMag(plySpd));
-		}
-		else if (keyCode=="d"){
-			plyMov=plyMov.sub(plyMov.rotate(HALF_PI).normalize().setMag(plySpd));
-		}
-		plyAng=atan2(plyMov.y,plyMov.x);
-  }
-  drawObj();
+function mouseDragged(){
+	plyAng+=mouseX-pmouseX
 }
 
 function windowResized() {
