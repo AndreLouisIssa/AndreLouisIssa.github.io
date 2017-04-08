@@ -1,7 +1,7 @@
 var plyMov;
 var plyPos;
 const plySpd = 1;
-const plyEnable = 0;
+const plyEnable = 1;
 const canvasRatio = 0.975;
 
 function setup() {
@@ -29,25 +29,29 @@ function drawObj(){
   ellipse(50, 50, 80, 80);
 }
 
-//function mousePressed(){
-//  drawObj()
-//}
+function mousePressed(){
+  drawObj()
+}
 
-//function keyPressed(){
-//  if (focused && plyEnable){
-//		if (keyCode=="w"){
-//			plyMov=plyMov.add(createVector(plySpd,0).rotate(plyAng));
-//		}
-//		else if (keyCode=="s"){
-//			plyMov=plyMov.sub(createVector(plySpd,0).rotate(plyAng));
-//		}
-//		if (keyCode=="a"){
-//			plyMov=plyMov.add(plyMov.rotate(HALF_PI).normalize()*plySpd);
-//		}
-//		else if (keyCode=="d"){
-//			plyMov=plyMov.sub(plyMov.rotate(HALF_PI).normalize()*plySpd);
-//		}
-//		plyAng=atan2(plyMov.y,plyMov.x);
-//  }
-//  drawObj();
-//}
+function keyPressed(){
+  if (focused && plyEnable){
+		if (keyCode=="w"){
+			plyMov=plyMov.add(createVector(plySpd,0).rotate(plyAng));
+		}
+		else if (keyCode=="s"){
+			plyMov=plyMov.sub(createVector(plySpd,0).rotate(plyAng));
+		}
+		if (keyCode=="a"){
+			plyMov=plyMov.add(plyMov.rotate(HALF_PI).normalize().setMag(plySpd));
+		}
+		else if (keyCode=="d"){
+			plyMov=plyMov.sub(plyMov.rotate(HALF_PI).normalize().setMag(plySpd));
+		}
+		plyAng=atan2(plyMov.y,plyMov.x);
+  }
+  drawObj();
+}
+
+function windowResized() {
+  resizeCanvas(int(windowWidth*canvasRatio), int(windowHeight*canvasRatio));
+}
