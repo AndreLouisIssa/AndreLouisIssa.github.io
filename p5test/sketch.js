@@ -8,7 +8,7 @@ g.plyAng=0
 function setup() {
 	g.w=int(windowWidth*0.95)
 	g.h=int(windowHeight*0.95)
-	g.viewDistance=int(g.w*0.25)
+	g.viewDistance=int(g.w/6)
 	g.widgetHeight=int(g.h*0.25)
 	g.plyRot=0.125
 	g.plySpd=1
@@ -23,13 +23,13 @@ function setup() {
 
 function prep(){
 	g.s1.w=g.w-2*g.viewDistance
-	g.s1.h=g.h-g.widgetHeight
+	g.s1.h=g.widgetHeight
 	g.s2.w=2*g.viewDistance
 	g.s2.h=g.s1.h
 	g.s3.w=g.s1.w
-	g.s4.h=g.h-g.widgetHeight
+	g.s3.h=g.h-g.widgetHeight
 	g.s4.w=g.s2.w
-	g.s4.h=g.s4.h
+	g.s4.h=g.s3.h
 }
 
 function windowResized() {
@@ -91,7 +91,7 @@ new p5(function (p) {
   var offY;
  
   p.setup = function () {
-    p.createCanvas(g.s2.w, g.s2.h);
+    p.createCanvas(g.s3.w, g.s3.h);
     p.fill(0);
 	  p.strokeWeight(2);
 	  offX = p.width/2;

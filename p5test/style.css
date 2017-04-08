@@ -12,13 +12,13 @@ body{
 
 div#sketch01,div#sketch02,div#sketch03,div#sketch04{
   position: absolute;
-  margin: 0.5%;
+  margin: 0;
   display: flex;
   align-items: center;
 }
 
 div#sketch01,div#sketch03{
-  justify-content: center;
+  justify-content: left;
 }
 
 div#sketch02,div#sketch04{
@@ -26,29 +26,29 @@ div#sketch02,div#sketch04{
 }
 
 div#sketch01{
-   left: 0%;
+   left: 1.25%;
    top: 0%;
-   width: 50%;
+   width: 65%;
    height: 25%;
  }
 
 div#sketch02{
-   left: 50%;
+   left: 65%;
    top: 0%;
-   width: 45%;
+   width: 35%;
    height: 25%;
  }
 
 div#sketch03{
-   left: 0%;
+   left: 1.25%;
    top: 25%;
-   width: 50%;
+   width: 65%;
    height: 70%;
  }
 
 div#sketch04{
-   left: 50%;
+   left: 65%;
    top: 25%;
-   width: 45%;
+   width: 35%;
    height: 70%;
  }
