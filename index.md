@@ -18,6 +18,8 @@
 
 [Modded Weapons Spreadsheet](https://docs.google.com/spreadsheets/d/1RcnYEru3hrISe7l1PBieDci-Ajfc20T3XoTbyPXPkKg/edit?)
 
+[BLCMods Github](https://bl2cp.github.io/BLCMods/)
+
 ### TESTING
 
 [p5.js test](p5test/index.html)
