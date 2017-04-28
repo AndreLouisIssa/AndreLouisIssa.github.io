@@ -2,6 +2,8 @@
 
 [My Wordpress](https://andre5037.wordpress.com/category/productions/)
 
+[My Youtube](https://www.youtube.com/channel/UC0cOX6sqCQbR3vQtW2e5cgQ)
+
 ### Modifications of [Davidbau's Complex Function Grapher](http://davidbau.com/conformal/)
 
 [Current](current.html)
