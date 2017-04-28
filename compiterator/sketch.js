@@ -112,7 +112,7 @@ function keyPressed() {
 }
 
 function mouseClicked(){
-	if (keyCode==18 && keyIsPressed){
+	if (keyCode==18 && keyIsPressed && g.edit){
 		g.attrs[g.addr].push(createVector(mouseX-g.x,g.y-mouseY).div(g.scal))
 	}
 }
