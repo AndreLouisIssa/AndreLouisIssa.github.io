@@ -6,7 +6,8 @@ function iterate() {
 
 function setup() {
 	g.cr = 0.95
-	g.rad = 2
+	g.reps = 250
+	g.rad = 1
 	g.scal = 180
 	g.pnt = createVector(0,0)
 	g.attrs = [[
@@ -57,15 +58,17 @@ function draw() {
 		}
 	}
 	else {
-		g.set = random(g.attrs)
-		g.attr = random(g.set)
-		h = g.pnt.heading()
-		if (h<0){
-			h+=360
+		for (var i = 0;i<g.reps;i++){
+			g.set = random(g.attrs)
+			g.attr = random(g.set)
+			h = g.pnt.heading()
+			if (h<0){
+				h+=360
+			}
+			fill(h,360,360)
+			iterate()
+			ellipse(g.pnt.x*g.scal,-g.pnt.y*g.scal,g.rad,g.rad)
 		}
-		fill(h,360,360)
-		iterate()
-		ellipse(g.pnt.x*g.scal,-g.pnt.y*g.scal,g.rad,g.rad)
 	}
 }
 
