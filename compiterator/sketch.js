@@ -109,6 +109,9 @@ function keyPressed() {
 			case 40:
 			if (g.attrs.length>1){
 				g.attrs.pop()
+				if (g.addr>=g.attrs.length){
+					g.addr=g.attrs.length-1
+				}
 			}
 			break
 			default:
