@@ -27,30 +27,33 @@ function setup() {
 function draw() {
 	translate(g.x,g.y)
 	if (g.edit) {
-		brk = 0
+		background(0)
 		len = g.attrs.length
+		brk = []
+		brek = 1
 		for (var i=0;i<len;i++) {
 			attrs = g.attrs[i]
 			len2 = attrs.length
 			for (var k=0;k<len2;k++) {
-				if (brk){
-					brk = 0
-					break
-				}
 				attr = attrs[k]
+				brek = 1
 				if(mouseIsPressed){
 					tempos = createVector(mouseX-g.x,-mouseY+g.y).div(g.scal)
 					if (g.scal*tempos.dist(attr)<g.rad*5) {
 						if (attrs.length>1){ 
-								attrs.splice(k,1)
-								brk = 1
-								break
+								brk.push([i,k])
+								brek = 0
 						}
-					}
 				}
-				fill(360*i/len,360,360)
-				ellipse(attr.x*g.scal,-attr.y*g.scal,g.rad*5,g.rad*5)
+				}
+				if(brek){
+					fill(360*i/len,360,360)
+					ellipse(attr.x*g.scal,-attr.y*g.scal,g.rad*5,g.rad*5)
+				}
 			}
+		}
+		for (var i = 0; i<brk.length;i++){
+		g.attrs[brk[i][0]].splice(brk[i][1],1)
 		}
 	}
 	else {
