@@ -40,6 +40,8 @@ function setup() {
 	g.addr=0
 	g.edit=1
 	g.col=1
+	g.excl=0
+	g.excn=0
 }
 
 function draw() {
@@ -73,22 +75,24 @@ function draw() {
 		for (var i = 0; i<brk.length;i++){
 		g.attrs[brk[i][0]].splice(brk[i][1],1)
 		}
-		if(!(mouseX>-g.x/4+g.x+g.rad && mouseX<-g.x/4+g.x+g.x/2-g.rad && mouseY>g.y/2+g.y+g.rad)){
+		if(!(mouseX>-g.x && mouseX<-g.x+g.x+g.x/2-g.rad && mouseY<g.y/2)){
 			fill(10)
-			rect(-g.x/4-g.rad,g.y/2-g.rad,g.x/2+g.rad,g.y/2+g.rad)
+			rect(-g.x,-g.y,g.x/2+g.rad,g.y/2+g.rad*5)
 			fill(360)
 			text(
 				'Controls \n'+
 				'Space: Toggle Render/Edit \n'+
-				'ALT (Hold) + LMB: Add \n'+
-				'LMB (Hold): Delete \n'+
+				'ALT (Hold) + LMB: Add Node \n'+
+				'LMB (Hold): Delete Node \n'+
 				'Up: New Layer \n'+
 				'Down: Delete Top Layer \n'+
 				'Right: Next Layer \n'+
 				'Left: Previous Layer \n'+
 				'Shift: Toggle Colouring \n'+
+				'N: Toggle Node Reselection \n'+
+				'M: Toggle Layer Reselection \n'+
 				'Enter: Save Image'
-			,-g.x/4,g.y/2,g.x/2,g.y/2)
+			,-g.x+2*g.rad,g.rad-g.y,g.x/2,g.y/2+g.rad*4)
 		}	
 	}
 	else {
@@ -96,11 +100,35 @@ function draw() {
 			if(mouseIsPressed){
 				g.pnt.x+=(mouseX-g.x)/g.scal*2
 				g.pnt.y-=(mouseY-g.y)/g.scal*2
-			}
+			} 
 			if (random(1)>g.prob){
-				g.set = random(g.attrs)
+				if(g.excl && g.attrs.length>1){
+					_set = []
+					for (var k=0;k<g.attrs.length;k++){
+						a=g.attrs[k]
+						if(a!=g.set){
+							_set.push(g.attrs[k])
+						}
+					}
+					g.set = random(_set)
+				}
+				else{
+					g.set = random(g.attrs)
+				}
 			}
-			g.attr = random(g.set)
+			if(g.excn && g.set.length>1){
+				_set = []
+				for (var k=0;k<g.set.length;k++){
+					a=g.set[k]
+					if(a!=g.attr){
+					_set.push(g.set[k])
+					}
+				}
+				g.attr = random(_set)
+			}
+			else{
+				g.attr = random(g.set)
+			}
 			if(g.col){
 				h = g.pnt.heading()
 				if (h<0){
@@ -133,14 +161,7 @@ function windowResized() {
 
 function keyPressed() {
 	print(keyCode)
-	if (keyCode==13 && !g.edit){
-		saveCanvas('compiterator.png')
-	}
-	if (keyCode==16 && !g.edit){
-		g.col=!g.col
-		g.g.clear()
 
-	}
 	if (keyCode==32){
 		g.edit = !g.edit
 		g.g.clear()
@@ -170,6 +191,24 @@ function keyPressed() {
 			break
 			default:
 			
+		}
+	}
+	else{
+		if (keyCode==13){
+			saveCanvas('compiterator.png')
+		}
+		if (keyCode==16){
+			g.col=!g.col
+			g.g.clear()
+
+		}
+		if (keyCode==78){
+			g.excn=!g.excn
+			g.g.clear()
+		}
+		if (keyCode==77){
+			g.excl=!g.excl
+			g.g.clear()
 		}
 	}
 }
