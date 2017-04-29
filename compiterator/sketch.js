@@ -6,10 +6,10 @@ function iterate() {
 
 function setup() {
 	g.cr = 1
-	g.reps = 250
+	g.reps = 500
 	g.rad = 10
 	g.scal = 360
-	g.prob = 0.90
+	g.prob = 0.5
 	g.pnt = createVector(0,0)
 	g.attrs = [[
 			createVector(0,2/sqrt(3)),
@@ -38,8 +38,8 @@ function setup() {
 	textFont('Consolas')
 	g.set=g.attrs[0]
 	g.addr=0
-	g.saddr=0
 	g.edit=1
+	g.col=1
 }
 
 function draw() {
@@ -85,7 +85,8 @@ function draw() {
 				'Up: New Layer \n'+
 				'Down: Delete Top Layer \n'+
 				'Right: Next Layer \n'+
-				'Left: Previous Layer \n'
+				'Left: Previous Layer \n',
+				'Shift: Toggle Colouring'
 			,-g.x/4,g.y/2,g.x/2,g.y/2)
 		}	
 	}
@@ -96,16 +97,19 @@ function draw() {
 		}
 		for (var i = 0;i<g.reps;i++){
 			if (random(1)>g.prob){
-				//g.saddr=(g.saddr+1)%g.attrs.length
 				g.set = random(g.attrs)
 			}
-			//g.set = g.attrs[g.saddr]
 			g.attr = random(g.set)
-			h = g.pnt.heading()
-			if (h<0){
-				h+=360
+			if(g.col){
+				h = g.pnt.heading()
+				if (h<0){
+					h+=360
+				}
+				g.g.fill(h,360,360)
 			}
-			g.g.fill(h,360,360)
+			else{
+				g.g.fill(360)
+			}
 			iterate()
 			g.g.ellipse(g.pnt.x*g.scal+g.x,-g.pnt.y*g.scal+g.y,0.25,0.25)
 		}
@@ -121,16 +125,18 @@ function windowResized() {
 }
 
 function keyPressed() {
+	print(keyCode)
 	if (keyCode==13 && !g.edit){
 		saveCanvas('compiterator.png')
 	}
-	if (keyCode==18){
-		g.del=1
+	if (keyCode==16 && !g.edit){
+		g.col=!g.col
+		g.g.clear()
+
 	}
 	if (keyCode==32){
 		g.edit = !g.edit
-		g.saddr=0
-		windowResized()
+		g.g.clear()
 	}
 	if (g.edit){
 		switch (keyCode){
