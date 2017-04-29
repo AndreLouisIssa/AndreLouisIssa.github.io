@@ -7,8 +7,8 @@ function iterate() {
 function setup() {
 	g.cr = 1
 	g.reps = 500
-	g.rad = 10
-	g.scal = 360
+	g.radi = 10
+	g.scali = 360
 	g.prob = 0.5
 	g.pnt = createVector(0,0)
 	g.attrs = [[
@@ -25,8 +25,8 @@ function setup() {
 	createCanvas(windowWidth*g.cr,windowHeight*g.cr)
 	g.g = createGraphics(width,height)
 	t = min(width,height)/(1080*g.cr)
-	g.scal = g.scal*t
-	g.rad = g.rad*t
+	g.scal = g.scali*t
+	g.rad = g.radi*t
 	g.x = width/2
 	g.y = height/2
 	background(0)
@@ -121,8 +121,8 @@ function windowResized() {
 	resizeCanvas(windowWidth*g.cr,windowHeight*g.cr)
 	t = min(width,height)/(1080*g.cr)
 	g.g = createGraphics(width,height)
-	g.scal = g.scal*t
-	g.rad = g.rad*t
+	g.scal = g.scali*t
+	g.rad = g.radi*t
 	g.x = width/2
 	g.y = height/2
 	textSize(20*t)
