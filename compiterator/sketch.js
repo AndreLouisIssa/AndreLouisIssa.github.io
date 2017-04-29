@@ -86,7 +86,8 @@ function draw() {
 				'Down: Delete Top Layer \n'+
 				'Right: Next Layer \n'+
 				'Left: Previous Layer \n'+
-				'Shift: Toggle Colouring'
+				'Shift: Toggle Colouring \n'+
+				'Enter: Save Image'
 			,-g.x/4,g.y/2,g.x/2,g.y/2)
 		}	
 	}
