@@ -91,11 +91,11 @@ function draw() {
 		}	
 	}
 	else {
-		if(mouseIsPressed){
-			g.pnt.x+=(mouseX-g.x)/g.scal*2
-			g.pnt.y-=(mouseY-g.y)/g.scal*2
-		}
 		for (var i = 0;i<g.reps;i++){
+			if(mouseIsPressed){
+				g.pnt.x+=(mouseX-g.x)/g.scal*2
+				g.pnt.y-=(mouseY-g.y)/g.scal*2
+			}
 			if (random(1)>g.prob){
 				g.set = random(g.attrs)
 			}
