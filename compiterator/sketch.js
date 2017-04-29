@@ -24,7 +24,7 @@ function setup() {
 	]
 	createCanvas(windowWidth*g.cr,windowHeight*g.cr)
 	g.g = createGraphics(width,height)
-	t = min(width,height)/(925*g.cr)
+	t = min(width,height)/(1080*g.cr)
 	g.scal = g.scal*t
 	g.rad = g.rad*t
 	g.x = width/2
@@ -119,9 +119,15 @@ function draw() {
 
 function windowResized() {
 	resizeCanvas(windowWidth*g.cr,windowHeight*g.cr)
+	t = min(width,height)/(1080*g.cr)
+	g.g = createGraphics(width,height)
+	g.scal = g.scal*t
+	g.rad = g.rad*t
 	g.x = width/2
 	g.y = height/2
-	g.g.clear()
+	textSize(20*t)
+	g.g.colorMode(HSB,360)
+	g.g.noStroke()
 }
 
 function keyPressed() {
