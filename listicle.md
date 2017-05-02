@@ -39,6 +39,9 @@ http://molview.org/
 - Protein Viewer
 http://molview.org/?pdbid=4hhb
 
+### Oscilloscope Emulator
+https://asdfg.me/osci/
+
 ### Protein Viewers
 http://www.rcsb.org/pdb/home/home.do#Subcategory-visualize_3dviewers
 
