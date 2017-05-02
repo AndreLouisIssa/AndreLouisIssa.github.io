@@ -26,6 +26,6 @@
 
 ### Javascript
 
-[Compiterator](compiterator/index.html)
+[Compiterator](https://rawgit.com/MagicGonads/MagicGonads.github.io/master/compiterator/index.html)
 
 [p5.js test](p5test/index.html)
