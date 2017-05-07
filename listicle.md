@@ -21,6 +21,9 @@ https://www.desmos.com/calculator
 ### Dynamic Periodic Table
 http://www.ptable.com/
 
+### Fractal Tree
+http://www.visnos.com/demos/fractal 
+
 ### Geogebra
 - Algebra and Geometry (2D, 3D)
 https://www.geogebra.org/graphing
@@ -41,6 +44,9 @@ http://molview.org/?pdbid=4hhb
 
 ### Oscilloscope Emulator
 https://asdfg.me/osci/
+
+### Pink Trombone
+https://dood.al/pinktrombone/
 
 ### Protein Viewers
 http://www.rcsb.org/pdb/home/home.do#Subcategory-visualize_3dviewers
