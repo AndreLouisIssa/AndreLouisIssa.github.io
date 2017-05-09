@@ -3,9 +3,6 @@
 ### Algodoo - 2D physics simulation
 http://www.algodoo.com/what-is-it/
 
-### CodePen
-https://codepen.io/pen
-
 ### Complex Function Plot
 http://brandonpelfrey.github.io/complex-function-plot/
 
@@ -62,6 +59,11 @@ http://www.geometrygames.org/
 
 ### Unicode Database
 http://www.amp-what.com/unicode/search/
+
+### Web-based Webcode
+https://codepen.io/pen
+http://htmledit.squarefree.com/
+https://jsfiddle.net/
 
 ### Wolfram
 - Mathworld:
