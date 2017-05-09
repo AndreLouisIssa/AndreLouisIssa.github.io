@@ -4,10 +4,13 @@ function first(){
   glob.canvasRatio = 100/3; //Ratio between settings and graph canvas in percent
   glob.settingBG = 36;
   glob.graphBG = 0;
-  glob.n = 5; // grid segments/ granularity
+  glob.n = 7; // grid segments/ granularity
   glob.ortho = 0;
-  glob.acc = 1;
-  glob.comp = [//Write conditions here, using x,y,z,r,t,p,u
+  glob.acc = 2;
+  glob.maxX = 10
+  glob.maxY = 10
+  glob.maxZ = 10
+  glob.comp = [//Write conditions here, using x,y,z,r,t,p,u,v,w
     function (){
       return 1
     },
@@ -18,12 +21,35 @@ function first(){
 
 // Softcode
 
-var x,y,z,r,t,p,u;
+
+function fact(op) {
+ // Lanczos Approximation of the Gamma Function
+ // As described in Numerical Recipes in C (2nd ed. Cambridge University Press, 1992)
+ var z = op + 1;
+ var p = [1.000000000190015, 76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 1.208650973866179E-3, -5.395239384953E-6];
+
+ var d1 = Math.sqrt(2 * Math.PI) / z;
+ var d2 = p[0];
+
+ for (var i = 1; i <= 6; ++i)
+  d2 += p[i] / (z + i);
+
+ var d3 = Math.pow((z + 5.5), (z + 0.5));
+ var d4 = Math.exp(-(z + 5.5));
+
+ d = d1 * d2 * d3 * d4;
+
+ return d;
+}
+
+var x,y,z,r,t,p,u,v,w,e;
 
 var glob = {}
 
+
 function setup(){
     first()
+    e = exp(0)
     var rat_setting = parseFloat(glob.canvasRatio)+"%";
     var rat_graph = parseFloat(100-glob.canvasRatio)+"%";
     var setting = document.getElementById('setting');
@@ -31,6 +57,8 @@ function setup(){
     setting.style.width = rat_setting;
     setting.style.left = rat_graph;
     graph.style.width = rat_graph;
+    glob.text = ''
+    glob.wtext = 0
 }
 
 glob.getSetting = function (){
@@ -51,6 +79,10 @@ new p5(function (setting) {
   "use strict";
  
   var tg1
+  var tg2
+  var bt1
+  var bt2
+  var bt3
 
   setting.setup = function () {
     glob.getSetting();
@@ -60,15 +92,46 @@ new p5(function (setting) {
     tg1.textSize(180);
     tg1.fill(255);
     tg1.text("Ortho:",tg1.width/16,tg1.height/4)
-    setting
+    tg2=setting.createGraphics(2000,300)
+    tg2.textFont('Consolas');
+    tg2.textSize(180);
+    tg2.fill(0);
+    
   };
  
   setting.draw = function () {
     setting.background(glob.settingBG);
+    setting.push();
     setting.image(tg1,setting.width/16,setting.height/4,7*setting.width/8,setting.height/12);
-    setting.translate(6*setting.width/16,16*setting.height/64)
     setting.fill(250*(1+2*glob.ortho)/3)
-    setting.rect(0,0,setting.width/16,setting.height/32)
+    setting.rect(6*setting.width/16,16*setting.height/64,setting.width/16,setting.height/32)
+    setting.pop();
+    setting.push();
+    setting.translate(setting.width/16,setting.height/32)
+    setting.push();
+        bt1 = setting.mouseX>(setting.width/16)
+        &&setting.mouseX<(setting.width/16+3*setting.width/4)
+        &&setting.mouseY>(setting.height/32)
+        &&setting.mouseY<(setting.height/32+setting.height/32)
+    setting.fill(200+55*bt1);
+    //setting.rect(0,0,3*setting.width/4,setting.height/32);
+    setting.pop();
+    tg2.background(200+55*bt1);
+    tg2.text(glob.text,tg2.width/32,10*tg2.height/16);
+    setting.image(tg2,0,0,3*setting.width/4,setting.height/32)
+        bt2 = setting.mouseX>(setting.width/16+3*setting.width/4+setting.width/64)
+        &&setting.mouseX<(setting.width/16+3*setting.width/4+setting.width/64+setting.width/16)
+        &&setting.mouseY>(setting.height/32)
+        &&setting.mouseY<(setting.height/32+setting.height/32)
+    setting.fill(0,200+55*bt2,0);
+    setting.rect(3*setting.width/4+setting.width/64,0,setting.width/16,setting.height/32);
+        bt3 = setting.mouseX>(setting.width/16+3*setting.width/4+6*setting.width/64)
+        &&setting.mouseX<(setting.width/16+3*setting.width/4+6*setting.width/64+setting.width/16)
+        &&setting.mouseY>(setting.height/32)
+        &&setting.mouseY<(setting.height/32+setting.height/32)
+    setting.fill(200+55*bt3,0,0);
+    setting.rect(3*setting.width/4+6*setting.width/64,0,setting.width/16,setting.height/32);
+    setting.pop();
   };
 
   setting.mouseClicked = function (){
@@ -77,6 +140,117 @@ new p5(function (setting) {
     &&setting.mouseY>(16*setting.height/64)
     &&setting.mouseY<(18*setting.height/64)){
       glob.ortho = 1 - glob.ortho
+    }
+    if(bt1){
+      glob.wtext = 1
+    }
+    else{
+      glob.wtext = 0
+    }
+    if(bt2){
+      if(glob.text==glob.text.replace('.','')){
+        glob.text=glob.text.toLowerCase();
+        glob.comp.push(new Function( 'return (' + glob.text + ')' ));
+        glob.text = ''
+      }
+    }
+    if(bt3){
+      if(glob.comp.length){
+        glob.comp.pop()
+      }
+    }
+  }
+
+  setting.keyPressed = function(){
+    if(glob.wtext){
+      console.log(setting.keyCode)
+      switch(setting.keyCode){
+        case 16:
+        glob.ncap = 1
+        break
+        case 82:
+        glob.text+='r'
+        break
+        case 88:
+        glob.text+='x'
+        break
+        case 89:
+        glob.text+='y'
+        break
+        case 86:
+        glob.text+='v'
+        break
+        case 85:
+        glob.text+='u'
+        break
+        case 90:
+        glob.text+='z'
+        break
+        case 187:
+        glob.text+='+'
+        break
+        case 188:
+        glob.text+='<'
+        break
+        case 189:
+        glob.text+='-'
+        break
+        case 190:
+        glob.text+='>'
+        break
+        case 13:
+        glob.text+='='
+        break
+        case 69:
+        glob.text+='e'
+        break
+        case 32:
+        glob.text+=' '
+        break
+        case 80:
+        glob.text+='p'
+        break
+        case 84:
+        glob.text+='t'
+        break
+        case 191:
+        glob.text+='/'
+        break
+        case 8:
+        glob.text = glob.text.slice(0, -1)
+        break
+        default:
+        if(setting.keyCode>=48&&setting.keyCode<=57){
+          if(glob.ncap){
+            glob.ncap = 0
+            switch (setting.keyCode){
+              case 56:
+              glob.text+='*'
+              break
+              case 57:
+              glob.text+='('
+              break
+              case 48:
+              glob.text+=')'
+              break
+              case 54:
+              if(glob.text.length){
+                glob.text=glob.text.slice(0, -1)+'pow('+glob.text[glob.text.length-1]+','
+              } 
+              break
+              case 49:
+              if(glob.text.length){
+                glob.text=glob.text.slice(0, -1)+'fact('+glob.text[glob.text.length-1]+')'
+              } 
+              break
+              default:
+            }
+          }
+          else{
+            glob.text+=char(setting.keyCode)
+          }
+        }
+      }
     }
   }
 
@@ -126,19 +300,23 @@ new p5(function (graph) {
     graph.scale(2/3)
     graph.translate(-hs,-hs,-hs)
     for (var i = 0; i < tp; i++){
-        x = int(glob.acc*(i%hp-hp/2+0.5));
-        y = int(glob.acc*(int(i%pow(hp,2)/hp)-hp/2+0.5));
-        z = int(glob.acc*(int(i/pow(hp,2))-hp/2+0.5));
+        x = int(glob.maxX*2*glob.acc*(i%hp-hp/2+0.5)/hp+0.5)/glob.acc;
+        y = int(glob.maxY*2*glob.acc*(int(i%pow(hp,2)/hp)-hp/2+0.5)/hp+0.5)/glob.acc;
+        z = int(glob.maxZ*2*glob.acc*(int(i/pow(hp,2))-hp/2+0.5)/hp+0.5)/glob.acc;
         t = atan2(y,x);
         p = atan2(z,sqrt(x*x+y*y));
-        r = sqrt(z*z+y*y+x*x);
+        r = z*z+y*y+x*x;
+        u = x/r
+        v = y/r
+        w = z/r
+        r = sqrt(r)
         for (var k = 0;k<glob.comp.length&&ch;k++){
           ch = glob.comp[k]();
         }
         if(ch){
           graph.push();
           graph.translate(i%hp*h,h*int(i%pow(hp,2)/hp),h*int(i/pow(hp,2)));
-          graph.sphere(5);
+          graph.sphere(h/12);
           graph.pop();
         }
         ch = 1
