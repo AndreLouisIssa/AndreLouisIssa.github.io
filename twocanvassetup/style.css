@@ -1,0 +1,16 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  margin: 0;
+  display: flex;
+}
+
+div#setting,div#graph{
+  position: absolute;
+  margin: 0;
+  height: 100%;
+  display: flex;
+}
