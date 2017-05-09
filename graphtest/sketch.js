@@ -180,6 +180,9 @@ new p5(function (setting) {
         case 86:
         glob.text+='v'
         break
+        case 87:
+        glob.text+='w'
+        break
         case 85:
         glob.text+='u'
         break
