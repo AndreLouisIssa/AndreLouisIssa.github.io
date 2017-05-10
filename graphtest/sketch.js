@@ -78,11 +78,64 @@ glob.getGraph = function (){
 new p5(function (setting) {
   "use strict";
  
+  function _Input (_keyCode,_nonShift,_shift) {
+    this.keyCode = _keyCode
+    this.nonShift = _nonShift
+    this.shift = _shift
+  }
+
+  _Input.prototype.pool = function (sh){
+      return [this.nonShift,this.shift][sh]
+    }
+
+  function _Button () {
+
+  }
+  
+  function _Slider () {
+
+  }
+
   var tg1
   var tg2
   var bt1
   var bt2
   var bt3
+  var inp = [
+    new _Input(82,'r','r'),
+    new _Input(88,'x','x'),
+    new _Input(89,'y','y'),
+    new _Input(86,'v','v'),
+    new _Input(87,'w','w'),
+    new _Input(85,'u','u'),
+    new _Input(90,'z','z'),
+    new _Input(84,'t','t'),
+    new _Input(80,'p','p'),
+    new _Input(69,'e','e'),
+    new _Input(32,' ','\t'),
+    new _Input(191,'/','/'),
+    new _Input(188,',','<'),
+    new _Input(190,'>','>'),
+    new _Input(49,'1','!'),
+    new _Input(50,'2','abs('),
+    new _Input(51,'3','int('),
+    new _Input(52,'4','fact('),
+    new _Input(53,'5','%'),
+    new _Input(54,'6','pow('),
+    new _Input(55,'7','&'),
+    new _Input(56,'8','*'),
+    new _Input(57,'9','('),
+    new _Input(48,'0',')'),
+    new _Input(189,'-','-'),
+    new _Input(187,'=','+'),
+    new _Input(220,'|','|')
+  ]
+  function addEx(){
+    glob.text=glob.text.toLowerCase();
+    glob.comp.push(new Function( 'return (' + glob.text + ')' ));
+    glob.text = ''
+    glob.stxt = []
+  }
 
   setting.setup = function () {
     glob.getSetting();
@@ -96,7 +149,7 @@ new p5(function (setting) {
     tg2.textFont('Consolas');
     tg2.textSize(180);
     tg2.fill(0);
-    
+    glob.stxt = [];
   };
  
   setting.draw = function () {
@@ -142,16 +195,13 @@ new p5(function (setting) {
     }
     if(bt1){
       glob.wtext = 1
+      glob.ncap=0
     }
     else{
       glob.wtext = 0
     }
     if(bt2){
-      if(glob.text==glob.text.replace('.','')){
-        glob.text=glob.text.toLowerCase();
-        glob.comp.push(new Function( 'return (' + glob.text + ')' ));
-        glob.text = ''
-      }
+      addEx()
     }
     if(bt3){
       if(glob.comp.length){
@@ -163,110 +213,31 @@ new p5(function (setting) {
   setting.keyPressed = function(){
     if(glob.wtext){
       console.log(setting.keyCode)
-      switch(setting.keyCode){
-        case 16:
-        glob.ncap = 1
-        break
-        case 82:
-        glob.text+='r'
-        break
-        case 88:
-        glob.text+='x'
-        break
-        case 89:
-        glob.text+='y'
-        break
-        case 86:
-        glob.text+='v'
-        break
-        case 87:
-        glob.text+='w'
-        break
-        case 85:
-        glob.text+='u'
-        break
-        case 90:
-        glob.text+='z'
-        break
-        case 187:
-        glob.text+='+'
-        break
-        case 188:
-        glob.text+='<'
-        break
-        case 189:
-        glob.text+='-'
-        break
-        case 190:
-        glob.text+='>'
-        break
-        case 13:
-        glob.text+='='
-        break
-        case 69:
-        glob.text+='e'
-        break
-        case 32:
-        glob.text+=' '
-        break
-        case 80:
-        glob.text+='p'
-        break
-        case 84:
-        glob.text+='t'
-        break
-        case 191:
-        glob.text+='/'
-        break
-		case 220:
-		glob.text+='|'
-		break
-        case 8:
-        glob.text = glob.text.slice(0, -1)
-        break
-        default:
-        if(setting.keyCode>=48&&setting.keyCode<=57){
-          if(glob.ncap){
-            glob.ncap = 0
-            switch (setting.keyCode){
-              case 56:
-              glob.text+='*'
-              break
-              case 57:
-              glob.text+='('
-              break
-              case 48:
-              glob.text+=')'
-              break
-			  case 51:
-			  glob.text+='int('
-			  break
-			  case 188:
-			  glob.text+=','
-			  break
-			  case 53:
-			  glob.text+='%'
-			  break
-              case 54:
-			  glob.text+='pow('
-              break
-			  case 49:
-			  glob.text+='!'
-			  break
-			  case 50:
-			  glob.text+='abs('
-			  break
-              case 52:
-			  glob.text+='fact('
-              break
-              default:
-            }
-          }
-          else{
-            glob.text+=char(setting.keyCode)
-          }
+      glob.ntxt=''
+      for (var i=0;i<inp.length;i++){
+        var ip = inp[i]
+        if (ip.keyCode==setting.keyCode){
+          glob.ntxt=ip.pool(glob.ncap)
+          glob.ncap=0
         }
       }
+      if(setting.keyCode==16){
+        glob.ncap = 1
+      }
+      if(setting.keyCode==8){
+        if(glob.stxt.length>1){
+            glob.stxt = glob.stxt.slice(0,-1)
+          }
+          else{
+            glob.stxt = []
+          }
+      }
+      if(setting.keyCode==13){
+        addEx()
+        }
+      if(glob.ntxt!=''){
+        glob.stxt.push(glob.ntxt)}
+      glob.text = glob.stxt.join('')
     }
   }
 
@@ -286,7 +257,7 @@ new p5(function (graph) {
   graph.setup = function () {
     glob.getGraph();
     graph.createCanvas(glob.graph.width, glob.graph.height,WEBGL);
-	graph.ambientLight(255)
+	  graph.ambientLight(255)
   };
  
   graph.draw = function () {
