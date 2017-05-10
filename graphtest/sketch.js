@@ -4,9 +4,9 @@ function first(){
   glob.canvasRatio = 100/3; //Ratio between settings and graph canvas in percent
   glob.settingBG = 36;
   glob.graphBG = 0;
-  glob.n = 7; // grid segments/ granularity
+  glob.n = 10; // grid segments/ granularity
   glob.ortho = 0;
-  glob.acc = 2;
+  glob.acc = 1;
   glob.maxX = 10
   glob.maxY = 10
   glob.maxZ = 10
@@ -114,10 +114,9 @@ new p5(function (setting) {
         &&setting.mouseY>(setting.height/32)
         &&setting.mouseY<(setting.height/32+setting.height/32)
     setting.fill(200+55*bt1);
-    //setting.rect(0,0,3*setting.width/4,setting.height/32);
     setting.pop();
     tg2.background(200+55*bt1);
-    tg2.text(glob.text,tg2.width/32,10*tg2.height/16);
+    tg2.text(glob.text.slice((glob.text.length-19)*(glob.text.length>19),glob.text.length),tg2.width/32,10*tg2.height/16);
     setting.image(tg2,0,0,3*setting.width/4,setting.height/32)
         bt2 = setting.mouseX>(setting.width/16+3*setting.width/4+setting.width/64)
         &&setting.mouseX<(setting.width/16+3*setting.width/4+setting.width/64+setting.width/16)
@@ -219,6 +218,9 @@ new p5(function (setting) {
         case 191:
         glob.text+='/'
         break
+		case 220:
+		glob.text+='|'
+		break
         case 8:
         glob.text = glob.text.slice(0, -1)
         break
@@ -236,15 +238,26 @@ new p5(function (setting) {
               case 48:
               glob.text+=')'
               break
+			  case 51:
+			  glob.text+='int('
+			  break
+			  case 188:
+			  glob.text+=','
+			  break
+			  case 53:
+			  glob.text+='%'
+			  break
               case 54:
-              if(glob.text.length){
-                glob.text=glob.text.slice(0, -1)+'pow('+glob.text[glob.text.length-1]+','
-              } 
+			  glob.text+='pow('
               break
-              case 49:
-              if(glob.text.length){
-                glob.text=glob.text.slice(0, -1)+'fact('+glob.text[glob.text.length-1]+')'
-              } 
+			  case 49:
+			  glob.text+='!'
+			  break
+			  case 50:
+			  glob.text+='abs('
+			  break
+              case 52:
+			  glob.text+='fact('
               break
               default:
             }
@@ -273,6 +286,7 @@ new p5(function (graph) {
   graph.setup = function () {
     glob.getGraph();
     graph.createCanvas(glob.graph.width, glob.graph.height,WEBGL);
+	graph.ambientLight(255)
   };
  
   graph.draw = function () {
@@ -303,11 +317,11 @@ new p5(function (graph) {
     graph.scale(2/3)
     graph.translate(-hs,-hs,-hs)
     for (var i = 0; i < tp; i++){
-        x = int(glob.maxX*2*glob.acc*(i%hp-hp/2+0.5)/hp+0.5)/glob.acc;
-        y = int(glob.maxY*2*glob.acc*(int(i%pow(hp,2)/hp)-hp/2+0.5)/hp+0.5)/glob.acc;
-        z = int(glob.maxZ*2*glob.acc*(int(i/pow(hp,2))-hp/2+0.5)/hp+0.5)/glob.acc;
-        t = atan2(y,x);
-        p = atan2(z,sqrt(x*x+y*y));
+        x = glob.maxX*2*(i%hp-hp/2+0.5)/hp;
+        y = glob.maxY*2*(int(i%pow(hp,2)/hp)-hp/2+0.5)/hp;
+        z = glob.maxZ*2*(int(i/pow(hp,2))-hp/2+0.5)/hp;
+        t = 180/PI*atan2(y,x);
+        p = 180/PI*atan2(z,sqrt(x*x+y*y));
         r = z*z+y*y+x*x;
         u = x/r
         v = y/r
@@ -319,7 +333,7 @@ new p5(function (graph) {
         if(ch){
           graph.push();
           graph.translate(i%hp*h,h*int(i%pow(hp,2)/hp),h*int(i/pow(hp,2)));
-          graph.sphere(h/12);
+          graph.box(h/12);
           graph.pop();
         }
         ch = 1
