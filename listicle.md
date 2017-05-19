@@ -27,6 +27,9 @@ https://www.geogebra.org/graphing
 - Probability
 https://www.geogebra.org/probability 
 
+### Gray-Scott Reaction Diffusion
+https://mrob.com/pub/comp/xmorphia/ogl/index.html
+
 ### Math Problem Solver
 https://www.mathway.com/
 
