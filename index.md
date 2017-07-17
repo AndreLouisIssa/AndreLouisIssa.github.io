@@ -31,3 +31,5 @@
 [Graph Test](graphtest/index.html)
 
 [p5.js test](p5test/index.html)
+
+[Colour Picker](DScolors/index.html)
