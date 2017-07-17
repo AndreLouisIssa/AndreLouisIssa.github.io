@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>DScolors</title>
+    
+  </head>
+  <body>
+    <script src="https://cdn.rawgit.com/EastDesire/jscolor/29ddce0a/jscolor.js"></script>
+    <div style="position:absolute; left:280px; top:10px;">
+    <span id="hex-str"></span><br />
+    <span id="rgb-str"></span><br />
+</div>
+    <button
+      class="jscolor {valueElement:null,mode:'HVS',position:'below',width:258, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000',onFineChange:'update(this)'}"
+      style="width:260px; height:100px;border:2px solid black">
+    </button>
+    <script>
+      function update(picker) {
+    document.getElementById('hex-str').innerHTML = picker.toHEXString();
+    document.getElementById('rgb-str').innerHTML = picker.toRGBString();
+}
+    </script>
+  </body>
+</html>
