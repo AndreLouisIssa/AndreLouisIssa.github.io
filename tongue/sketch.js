@@ -1,18 +1,49 @@
 var g = {}
 
-function iterate() {
-	g.pnt.add(g.attr).div(2)
-}
-
 function mod(a,b){
 	return a-b*int(a/b)
 }
 
+function iterate() {
+	//g.a= mod(g.p[0][0],g.a)
+	//g.a= g.p[0][0]*g.a*(1-g.a)
+	//g.a= g.p[0][0]*g.a-(1-g.a)
+	//g.a= g.a+g.p[0][0]*sin(TWO_PI*g.a)/TWO_PI
+	//g.a= g.p[0][0]+g.a+sin(TWO_PI*g.a)/TWO_PI
+	//g.a= g.p[0][0]+g.a+g.a*sin(TWO_PI*g.a)/TWO_PI
+	//g.a= pow(g.a,2)+g.p[0][0]*sin(TWO_PI*g.a)/TWO_PI
+	//g.a= g.a+g.p[0][0]*tan(TWO_PI*g.a)/TWO_PI
+	//g.a= mod(g.p[0][0],g.a)
+	//g.a= g.a - g.a*(g.p[0][0]-g.a)
+	//g.a= g.a + g.p[0][0]*(g.n-g.a)
+	//g.a= g.n+g.p[0][0]*sin(TWO_PI*g.a)/TWO_PI
+	//g.a= g.a/sin(TWO_PI*g.a-g.p[0][0])
+	//g.a= g.a/sin(TWO_PI*g.a*g.p[0][0])
+	//g.a= g.a-sin(g.a*g.p[0][0])|
+	//g.a= g.a-random()*g.p[0][0]
+	g.a = g.p[0][0]-exp(g.a)
+	g.a = g.a-mod(g.p[0][0],g.a)
+	g.n+=1
+	g.wa = g.a/g.n
+}
+
 function setup() {
+	g.p=[[-10,-10,10,0.001]]
+	g.q=[1]
+	g.n=0
+	g.wa=0
+	g.wb=0
+	g.a=1
+	g.b=0
+	g.c=0
+	g.d=1
 	g.cr = 1
-	g.reps = 500
+	g.reps1 = 25
+	g.reps2 = 150
 	g.radi = 10
 	g.scali = 360
+	g.scalix = 50
+	g.scaliy = 70
 	g.prob = 0.5
 	g.pnt = createVector(0,0)
 	g.attrs = [[
@@ -30,6 +61,8 @@ function setup() {
 	g.g = createGraphics(width,height)
 	t = min(width,height)/(1080*g.cr)
 	g.scal = g.scali*t
+	g.scalx = g.scalix*t
+	g.scaly = g.scaliy*t
 	g.rad = g.radi*t
 	g.x = width/2
 	g.y = height/2
@@ -37,16 +70,15 @@ function setup() {
 	g.g.noStroke()
 	colorMode(HSB,360)
 	g.g.colorMode(HSB,360)
-	angleMode(DEGREES)
+	angleMode(RADIANS)
 	textSize(20*t)
 	textFont('Consolas')
 	g.set=g.attrs[0]
 	g.addr=0
-	g.edit=1
+	g.edit=0
 	g.col=1
 	g.excl=0
 	g.excn=0
-	g.clmd=1
 }
 
 function draw() {
@@ -94,7 +126,6 @@ function draw() {
 				'Right: Next Layer \n'+
 				'Left: Previous Layer \n'+
 				'Shift: Toggle Colouring \n'+
-				'B: Toggle Colour Mode \n'+
 				'N: Toggle Node Reselection \n'+
 				'M: Toggle Layer Reselection \n'+
 				'Enter: Save Image'
@@ -102,61 +133,32 @@ function draw() {
 		}	
 	}
 	else {
-		for (var i = 0;i<g.reps;i++){
-			if(mouseIsPressed){
-				g.pnt.x+=(mouseX-g.x)/g.scal*2
-				g.pnt.y-=(mouseY-g.y)/g.scal*2
-			} 
-			if (random(1)>g.prob){
-				if(g.excl && g.attrs.length>1){
-					_set = []
-					for (var k=0;k<g.attrs.length;k++){
-						a=g.attrs[k]
-						if(a!=g.set){
-							_set.push(g.attrs[k])
-						}
-					}
-					g.set = random(_set)
-				}
-				else{
-					g.set = random(g.attrs)
-				}
-			}
-			if(g.excn && g.set.length>1){
-				_set = []
-				for (var k=0;k<g.set.length;k++){
-					a=g.set[k]
-					if(a!=g.attr){
-					_set.push(g.set[k])
-					}
-				}
-				g.attr = random(_set)
-			}
-			else{
-				g.attr = random(g.set)
-			}
-			ph=g.pnt.heading()
+		for (var k = 0;k<g.reps1;k++){
+			g.n=1
+			g.a = random()*(g.c+(g.c==0))
 			iterate()
-			if(g.col){
-				if(g.clmd){
-					h = ph
+			for (var i = 0;i<g.reps2;i++){
+				if(mouseIsPressed){
+					g.pnt.x+=(mouseX-g.x)/g.scal*2
+					g.pnt.y-=(mouseY-g.y)/g.scal*2
+				} 
+				g.pnt.x=g.p[0][0]
+				g.pnt.y=g.a
+				if(g.col){
+					h = 90*g.wa//g.pnt.heading()
 					if (h<0){
 						h+=360
 					}
 					g.g.fill(h,360,360)
 				}
 				else{
-					h = g.pnt.heading()-ph
-					if (h<0){
-						h+=360
-					}
-					g.g.fill(h,360,360)
+					g.g.fill(360)
 				}
+				iterate()
+				g.g.ellipse(g.pnt.x*g.scalx+g.x,-g.pnt.y*g.scaly+g.y,0.25,0.25)
 			}
-			else{
-				g.g.fill(360)
-			}
-			g.g.ellipse(g.pnt.x*g.scal+g.x,-g.pnt.y*g.scal+g.y,0.25,0.25)
+			g.p[0][0]+=g.p[0][3]
+			if(g.p[0][0]>=g.p[0][2]){g.p[0][0]=g.p[0][1]}
 		}
 		image(g.g,-g.x,-g.y,width,height)
 	}
@@ -217,10 +219,6 @@ function keyPressed() {
 			g.col=!g.col
 			g.g.clear()
 
-		}
-		if (keyCode==66){
-			g.clmd=!g.clmd
-			g.g.clear()
 		}
 		if (keyCode==78){
 			g.excn=!g.excn
