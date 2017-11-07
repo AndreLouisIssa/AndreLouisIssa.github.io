@@ -80,9 +80,9 @@ function draw() {
 		for (var i = 0; i<brk.length;i++){
 		g.attrs[brk[i][0]].splice(brk[i][1],1)
 		}
-		if(!(mouseX>-g.x && mouseX<-g.x+g.x+g.x/2-g.rad && mouseY<g.y/2)){
+		if(!(mouseX>-g.x && mouseX<-g.x+g.x+g.x/2-g.rad && mouseY<11/9*g.y/2)){
 			fill(10)
-			rect(-g.x,-g.y,g.x/2+g.rad,g.y/2+g.rad*5)
+			rect(-g.x,-g.y,g.x/2+g.rad,10/9*g.y/2+g.rad*5)
 			fill(360)
 			text(
 				'Controls \n'+
@@ -98,7 +98,7 @@ function draw() {
 				'N: Toggle Node Reselection \n'+
 				'M: Toggle Layer Reselection \n'+
 				'Enter: Save Image'
-			,-g.x+2*g.rad,g.rad-g.y,g.x/2,g.y/2+g.rad*4)
+			,-g.x+2*g.rad,g.rad-g.y,g.x/2,10/9*g.y/2+g.rad*4)
 		}	
 	}
 	else {
