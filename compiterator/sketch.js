@@ -44,9 +44,10 @@ function setup() {
 	g.addr=0
 	g.edit=1
 	g.col=1
+	g.colm=5
 	g.excl=0
 	g.excn=0
-	g.clmd=1
+	g.mem=1
 }
 
 function draw() {
@@ -80,9 +81,9 @@ function draw() {
 		for (var i = 0; i<brk.length;i++){
 		g.attrs[brk[i][0]].splice(brk[i][1],1)
 		}
-		if(!(mouseX>-g.x && mouseX<-g.x+g.x+g.x/2-g.rad && mouseY<11/9*g.y/2)){
+		if(!(mouseX>-g.x && mouseX<9*g.x/20-g.rad && mouseY<25/18*g.y/2)){
 			fill(10)
-			rect(-g.x,-g.y,g.x/2+g.rad,10/9*g.y/2+g.rad*5)
+			rect(-g.x,-g.y,17/20*g.x/2+g.rad,12/10*g.y/2+g.rad*5)
 			fill(360)
 			text(
 				'Controls \n'+
@@ -93,20 +94,23 @@ function draw() {
 				'Down: Delete Top Layer \n'+
 				'Right: Next Layer \n'+
 				'Left: Previous Layer \n'+
-				'Shift: Toggle Colouring \n'+
-				'B: Toggle Colour Mode \n'+
+				'B: Cycle Colour Mode \n'+
 				'N: Toggle Node Reselection \n'+
-				'M: Toggle Layer Reselection \n'+
+				'M: Toggle Layer Reselection\n'+
+				'<: Decrease Cycle Depth \n'+
+				'>: Increase Cycle Depth \n'+
 				'Enter: Save Image'
-			,-g.x+2*g.rad,g.rad-g.y,g.x/2,10/9*g.y/2+g.rad*4)
+			,-g.x+2*g.rad,g.rad-g.y,8/10*g.x/2,12/10*g.y/2+g.rad*4)
 		}	
 	}
-	else {
-		for (var i = 0;i<g.reps;i++){
+	else { 
+		for (var i = 0;i<g.reps/(g.mem+(g.mem==0));i++){
+			ph=g.pnt.copy()
 			if(mouseIsPressed){
-				g.pnt.x+=(mouseX-g.x)/g.scal*2
-				g.pnt.y-=(mouseY-g.y)/g.scal*2
-			} 
+				g.pnt.x+=(mouseX-g.x)/g.scal
+				g.pnt.y-=(mouseY-g.y)/g.scal
+			}
+			for(var m=0;m<(g.mem+(g.mem==0));m++){
 			if (random(1)>g.prob){
 				if(g.excl && g.attrs.length>1){
 					_set = []
@@ -135,27 +139,49 @@ function draw() {
 			else{
 				g.attr = random(g.set)
 			}
-			ph=g.pnt.heading()
 			iterate()
-			if(g.col){
-				if(g.clmd){
-					h = ph
+		    }
+			if(g.mem==0){
+				ph=g.pnt.copy()
+			}
+			switch(g.col){
+				case 1:
+					h = ph.heading()
 					if (h<0){
 						h+=360
 					}
 					g.g.fill(h,360,360)
-				}
-				else{
-					h = g.pnt.heading()-ph
+					break
+				case 2:
+					h = 180*ph.mag()
+					if (h<0){
+						h+=360
+					}
+					if (h>360){
+						h-=360
+					}
+					g.g.fill(h,360,360)
+					break
+				case 3:
+					h = g.pnt.heading()-ph.heading()
 					if (h<0){
 						h+=360
 					}
 					g.g.fill(h,360,360)
+					break
+				case 4:
+					h = 180*(g.pnt.mag()-ph.mag())
+					if (h<0){
+						h+=360
+					}
+					if (h>360){
+						h-=360
+					}
+					g.g.fill(h,360,360)
+					break
+				default:
+					g.g.fill(360)
 				}
-			}
-			else{
-				g.g.fill(360)
-			}
 			g.g.ellipse(g.pnt.x*g.scal+g.x,-g.pnt.y*g.scal+g.y,0.25,0.25)
 		}
 		image(g.g,-g.x,-g.y,width,height)
@@ -213,13 +239,11 @@ function keyPressed() {
 		if (keyCode==13){
 			saveCanvas('compiterator.png')
 		}
-		if (keyCode==16){
-			g.col=!g.col
-			g.g.clear()
-
-		}
 		if (keyCode==66){
-			g.clmd=!g.clmd
+			g.col++
+			if(g.col>=g.colm){
+			g.col=0
+			}
 			g.g.clear()
 		}
 		if (keyCode==78){
@@ -228,6 +252,14 @@ function keyPressed() {
 		}
 		if (keyCode==77){
 			g.excl=!g.excl
+			g.g.clear()
+		}
+		if (keyCode==188&&g.mem){
+			g.mem--
+			g.g.clear()
+		}
+		if (keyCode==190){
+			g.mem++
 			g.g.clear()
 		}
 	}
