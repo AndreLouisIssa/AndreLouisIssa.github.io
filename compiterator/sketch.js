@@ -86,21 +86,21 @@ function draw() {
 			rect(-g.x,-g.y,17/20*g.x/2+g.rad,12/10*g.y/2+g.rad*5)
 			fill(360)
 			text(
-				'Controls \n'+
-				'Space: Toggle Render/Edit \n'+
-				'ALT (Hold) + LMB: Add Node \n'+
-				'LMB (Hold): Delete Node \n'+
-				'Up: New Layer \n'+
-				'Down: Delete Top Layer \n'+
-				'Right: Next Layer \n'+
-				'Left: Previous Layer \n'+
-				'B: Cycle Colour Mode \n'+
-				'N: Toggle Node Reselection \n'+
+				'Controls\n'+
+				'Space: Toggle Render/Edit\n'+
+				'ALT (Hold) + LMB: Add Node\n'+
+				'LMB (Hold): Delete Node\n'+
+				'Up: New Layer\n'+
+				'Down: Delete Top Layer\n'+
+				'Right: Next Layer\n'+
+				'Left: Previous Layer\n'+
+				'B: Cycle Colour Mode\n'+
+				'N: Toggle Node Reselection\n'+
 				'M: Toggle Layer Reselection\n'+
-				'<: Decrease Cycle Depth \n'+
-				'>: Increase Cycle Depth \n'+
+				'<: Decrease Cycle Depth\n'+
+				'>: Increase Cycle Depth\n'+
 				'Enter: Save Image'
-			,-g.x+2*g.rad,g.rad-g.y,8/10*g.x/2,12/10*g.y/2+g.rad*4)
+			,-g.x+2*g.rad,g.rad-g.y,9/10*g.x/2,12/10*g.y/2+g.rad*4)
 		}	
 	}
 	else { 
