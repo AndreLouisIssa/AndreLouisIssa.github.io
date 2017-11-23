@@ -28,6 +28,8 @@
 
 [Compiterator](compiterator/index.html)
 
+[Mandelbrot](compset/index.html)
+
 [Graph Test](graphtest/index.html)
 
 [p5.js test](p5test/index.html)
