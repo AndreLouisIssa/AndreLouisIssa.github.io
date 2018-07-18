@@ -27,6 +27,7 @@
 ### Javascript
 
 [Compiterator](compiterator/index.html)
+[Compiterator Complex Parameter](compiteratorE/index.html)
 
 [Mandelbrot](compset/index.html)
 
