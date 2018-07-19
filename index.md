@@ -28,8 +28,6 @@
 
 [Compiterator](compiterator/index.html)
 
-[Compiterator E](compiteratorE/index.html)
-
 [Mandelbrot](compset/index.html)
 
 [Graph Test](graphtest/index.html)
