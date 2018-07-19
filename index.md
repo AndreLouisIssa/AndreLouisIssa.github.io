@@ -27,6 +27,7 @@
 ### Javascript
 
 [Compiterator](compiterator/index.html)
+[How to use it](https://github.com/MagicGonads/MagicGonads.github.io/wiki/Compiterator:-The-Chaos-Game)
 
 [Mandelbrot](compset/index.html)
 
