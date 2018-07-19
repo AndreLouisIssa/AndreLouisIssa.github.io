@@ -1,42 +1,7 @@
 var g = {}
 
 function iterate() {
-	switch (g.e){
-		case 1:
-			R0 = sqrt(g.t.x*g.t.x+g.t.y*g.t.y)
-			R1 = (1-1/(R0+1))/R0
-			x0 = g.t.x*R1
-			y0 = g.t.y*R1
-			x1 = g.attr.x
-			y1 = g.attr.y
-			x2 = g.pnt.x
-			y2 = g.pnt.y
-			x3 = (1-x0)*x1+y0*y1+x0*x2-y0*y2
-			y3 = (1-x0)*y1-y0*x1+x0*y2+y0*x2
-		break
-		case 2:
-			x0 = exp(g.t.x)
-			y0 = log(abs(g.t.y)+1)*(g.t.y<0 ? -1 : 1)
-			x0 = exp(g.t.x)
-			y0 = log(abs(g.t.y)+1)*(g.t.y<0 ? -1 : 1)
-			x1 = g.attr.x-g.pnt.x
-			y1 = g.attr.y-g.pnt.y
-			x2 = g.pnt.x
-			y2 = g.pnt.y
-			R = sqrt(x1*x1+y1*y1)
-			x3 = x2+(x0*x1-y0*y1)/R
-			y3 = y2+(x0*y1+x1*y0)/R
-		break
-		default:
-			x1 = g.attr.x
-			y1 = g.attr.y
-			x2 = g.pnt.x
-			y2 = g.pnt.y
-			x3 = (x1+x2)/2
-			y3 = (y1+y2)/2
-	}
-	g.pnt.x=x3
-	g.pnt.y=y3
+	g.pnt.add(g.attr).div(2)
 }
 
 function mod(a,b){
@@ -78,9 +43,6 @@ function setup() {
 	g.set=g.attrs[0]
 	g.addr=0
 	g.edit=1
-	g.t = createVector(1/2,0)
-	g.e = 0
-	g.em = 3
 	g.col=1
 	g.colm=5
 	g.excl=0
@@ -119,39 +81,42 @@ function draw() {
 		for (var i = 0; i<brk.length;i++){
 		g.attrs[brk[i][0]].splice(brk[i][1],1)
 		}
+		if(!(mouseX>-g.x && mouseX<9*g.x/20-g.rad && mouseY<25/18*g.y/2)){
+			fill(10)
+			rect(-g.x,-g.y,17/20*g.x/2+g.rad,12/10*g.y/2+g.rad*5)
+			fill(360)
+			text(
+				'Controls\n'+
+				'Space: Toggle Render/Edit\n'+
+				'ALT (Hold) + LMB: Add Node\n'+
+				'LMB (Hold): Delete Node\n'+
+				'Up: New Layer\n'+
+				'Down: Delete Top Layer\n'+
+				'Right: Next Layer\n'+
+				'Left: Previous Layer\n'+
+				'B: Cycle Colour Mode\n'+
+				'N: Toggle Node Reselection\n'+
+				'M: Toggle Layer Reselection\n'+
+				'<: Decrease Cycle Depth\n'+
+				'>: Increase Cycle Depth\n'+
+				'Enter: Save Image'
+			,-g.x+2*g.rad,g.rad-g.y,9/10*g.x/2,12/10*g.y/2+g.rad*4)
+		}	
 	}
 	else { 
 		for (var i = 0;i<g.reps/(g.mem+(g.mem==0));i++){
 			ph=g.pnt.copy()
 			if(mouseIsPressed){
-				switch(g.e){
-					case 1:
-						g.t.x=(mouseX-g.x)/g.scal
-						g.t.y=-(mouseY-g.y)/g.scal
-					break
-					case 2:
-						g.t.x=(mouseX-g.x)/g.scal
-						g.t.y=-(mouseY-g.y)/g.scal
-					break
-					default:
-						g.pnt.x+=(mouseX-g.x)/g.scal
-						g.pnt.y-=(mouseY-g.y)/g.scal
-				}
+				g.pnt.x+=(mouseX-g.x)/g.scal
+				g.pnt.y-=(mouseY-g.y)/g.scal
 			}
 			for(var m=0;m<(g.mem+(g.mem==0));m++){
 			if (random(1)>g.prob){
-				if((g.excl!=0) && g.attrs.length>1){
+				if(g.excl && g.attrs.length>1){
 					_set = []
-					ind = g.attrs.length
 					for (var k=0;k<g.attrs.length;k++){
 						a=g.attrs[k]
-						if(a==g.set){
-						ind = k
-						}
-					}
-					for (var k=0;k<g.attrs.length;k++){
-						a=g.attrs[k]
-						if(k!=mod(ind+g.excl,g.attrs.length+1)){
+						if(a!=g.set){
 							_set.push(g.attrs[k])
 						}
 					}
@@ -161,18 +126,11 @@ function draw() {
 					g.set = random(g.attrs)
 				}
 			}
-			if((g.excn!=0) && g.set.length>1){
+			if(g.excn && g.set.length>1){
 				_set = []
-				ind = g.set.length
 				for (var k=0;k<g.set.length;k++){
 					a=g.set[k]
-					if(a==g.attr){
-					ind = k
-					}
-				}
-				for (var k=0;k<g.set.length;k++){
-					a=g.set[k]
-					if(k!=mod(ind+g.excn,g.set.length+1)){
+					if(a!=g.attr){
 					_set.push(g.set[k])
 					}
 				}
@@ -278,9 +236,6 @@ function keyPressed() {
 		}
 	}
 	else{
-		if (keyCode==82){
-			g.g.clear()
-		}
 		if (keyCode==13){
 			saveCanvas('compiterator.png')
 		}
@@ -291,20 +246,21 @@ function keyPressed() {
 			}
 			g.g.clear()
 		}
-		if (keyCode==69){
-			g.e=mod(g.e+1,g.em)
-		}
 		if (keyCode==78){
-			g.excn=mod(g.excn+1,g.set.length+2)
+			g.excn=!g.excn
+			g.g.clear()
 		}
 		if (keyCode==77){
-			g.excl=mod(g.excl+1,g.attrs.length+2)
+			g.excl=!g.excl
+			g.g.clear()
 		}
 		if (keyCode==188&&g.mem){
 			g.mem--
+			g.g.clear()
 		}
 		if (keyCode==190){
 			g.mem++
+			g.g.clear()
 		}
 	}
 }
