@@ -1,55 +1,8 @@
 var g = {}
 
-function setup() {
-	//Stuff you can change
-	g.t = createVector(1,0)
-	g.attrs = [[
-			createVector(0,2/sqrt(3)),
-			createVector(1,-1/sqrt(3)),
-			createVector(-1,-1/sqrt(3)),
-		],
-		[
-			createVector(0,-2/sqrt(3)),
-			createVector(1,1/sqrt(3)),
-			createVector(-1,1/sqrt(3)),
-		]
-	]
-	g.reps = 500
-	g.prob = 0.5
-	//Stuff you shouldn't change
-	g.cr = 1
-	g.radi = 10
-	g.scali = 360
-	g.pnt = createVector(0,0)
-	createCanvas(windowWidth*g.cr,windowHeight*g.cr)
-	g.g = createGraphics(width,height)
-	t = min(width,height)/(1080*g.cr)
-	g.scal = g.scali*t
-	g.rad = g.radi*t
-	g.x = width/2
-	g.y = height/2
-	background(0)
-	g.g.noStroke()
-	colorMode(HSB,360)
-	g.g.colorMode(HSB,360)
-	angleMode(DEGREES)
-	textSize(20*t)
-	textFont('Consolas')
-	g.set=g.attrs[0]
-	g.addr=0
-	g.edit=1
-	g.e = 0
-	g.col=1
-	g.excl=0
-	g.excn=0
-	g.mem=1
-	g.mfix=0
-	g.ren=1
-}
-
 function iterate() {
 	switch (g.e){
-		case 0:
+		case 1:
 			R0 = sqrt(g.t.x*g.t.x+g.t.y*g.t.y)
 			R1 = (1-1/(R0+1))/R0
 			x0 = g.t.x*R1
@@ -61,7 +14,7 @@ function iterate() {
 			x3 = (1-x0)*x1+y0*y1+x0*x2-y0*y2
 			y3 = (1-x0)*y1-y0*x1+x0*y2+y0*x2
 		break
-		case 1:
+		case 2:
 			x0 = exp(g.t.x)
 			y0 = log(abs(g.t.y)+1)*(g.t.y<0 ? -1 : 1)
 			x0 = exp(g.t.x)
@@ -88,6 +41,51 @@ function iterate() {
 
 function mod(a,b){
 	return a-b*int(a/b)
+}
+
+function setup() {
+	g.cr = 1
+	g.reps = 500
+	g.radi = 10
+	g.scali = 360
+	g.prob = 0.5
+	g.pnt = createVector(0,0)
+	g.attrs = [[
+			createVector(0,2/sqrt(3)),
+			createVector(1,-1/sqrt(3)),
+			createVector(-1,-1/sqrt(3)),
+		],
+		[
+			createVector(0,-2/sqrt(3)),
+			createVector(1,1/sqrt(3)),
+			createVector(-1,1/sqrt(3)),
+		]
+	]
+	createCanvas(windowWidth*g.cr,windowHeight*g.cr)
+	g.g = createGraphics(width,height)
+	t = min(width,height)/(1080*g.cr)
+	g.scal = g.scali*t
+	g.rad = g.radi*t
+	g.x = width/2
+	g.y = height/2
+	background(0)
+	g.g.noStroke()
+	colorMode(HSB,360)
+	g.g.colorMode(HSB,360)
+	angleMode(DEGREES)
+	textSize(20*t)
+	textFont('Consolas')
+	g.set=g.attrs[0]
+	g.addr=0
+	g.edit=1
+	g.t = createVector(1/2,0)
+	g.e = 0
+	g.em = 3
+	g.col=1
+	g.colm=5
+	g.excl=0
+	g.excn=0
+	g.mem=1
 }
 
 function draw() {
@@ -126,25 +124,20 @@ function draw() {
 		for (var i = 0;i<g.reps/(g.mem+(g.mem==0));i++){
 			ph=g.pnt.copy()
 			if(mouseIsPressed){
-				switch(g.mfix){
+				switch(g.e){
 					case 1:
-						g.colx=(mouseX-g.x)/g.scal
-						g.coly=-(mouseY-g.y)/g.scal
-					break
-					case 2:
-						g.pnt.x=(mouseX-g.x)/g.scal
-						g.pnt.y=-(mouseY-g.y)/g.scal
-					break
-					case 3:
-						g.pnt.x+=(mouseX-g.x)/g.scal
-						g.pnt.y+=-(mouseY-g.y)/g.scal
-					break
-					default:
 						g.t.x=(mouseX-g.x)/g.scal
 						g.t.y=-(mouseY-g.y)/g.scal
+					break
+					case 2:
+						g.t.x=(mouseX-g.x)/g.scal
+						g.t.y=-(mouseY-g.y)/g.scal
+					break
+					default:
+						g.pnt.x+=(mouseX-g.x)/g.scal
+						g.pnt.y-=(mouseY-g.y)/g.scal
 				}
 			}
-			if(g.ren){
 			for(var m=0;m<(g.mem+(g.mem==0));m++){
 			if (random(1)>g.prob){
 				if((g.excl!=0) && g.attrs.length>1){
@@ -158,7 +151,7 @@ function draw() {
 					}
 					for (var k=0;k<g.attrs.length;k++){
 						a=g.attrs[k]
-						if(k!=mod(ind+g.excl-1,g.attrs.length+1)){
+						if(k!=mod(ind+g.excl,g.attrs.length+1)){
 							_set.push(g.attrs[k])
 						}
 					}
@@ -179,7 +172,7 @@ function draw() {
 				}
 				for (var k=0;k<g.set.length;k++){
 					a=g.set[k]
-					if(k!=mod(ind+g.excn-1,g.set.length+1)){
+					if(k!=mod(ind+g.excn,g.set.length+1)){
 					_set.push(g.set[k])
 					}
 				}
@@ -193,18 +186,16 @@ function draw() {
 			if(g.mem==0){
 				ph=g.pnt.copy()
 			}
-			var cp=g.pnt.copy().sub(createVector(g.colx,g.coly))
-			var cph=ph.sub(createVector(g.colx,g.coly))
 			switch(g.col){
 				case 1:
-					h = cph.heading()
+					h = ph.heading()
 					if (h<0){
 						h+=360
 					}
 					g.g.fill(h,360,360)
 					break
 				case 2:
-					h = 180*cph.mag()
+					h = 180*ph.mag()
 					if (h<0){
 						h+=360
 					}
@@ -214,14 +205,14 @@ function draw() {
 					g.g.fill(h,360,360)
 					break
 				case 3:
-					h = cp.heading()-cph.heading()
+					h = g.pnt.heading()-ph.heading()
 					if (h<0){
 						h+=360
 					}
 					g.g.fill(h,360,360)
 					break
 				case 4:
-					h = 180*(cp.mag()-cph.mag())
+					h = 180*(g.pnt.mag()-ph.mag())
 					if (h<0){
 						h+=360
 					}
@@ -234,7 +225,6 @@ function draw() {
 					g.g.fill(360)
 				}
 			g.g.ellipse(g.pnt.x*g.scal+g.x,-g.pnt.y*g.scal+g.y,0.25,0.25)
-			}
 		}
 		image(g.g,-g.x,-g.y,width,height)
 	}
@@ -263,23 +253,19 @@ function keyPressed() {
 	if (g.edit){
 		switch (keyCode){
 			case 37:
-			//left
 			if (g.addr){
 				g.addr--
 			}
 			break
 			case 38:
-			//up
 			g.attrs.push([])
 			break
 			case 39:
-			//right
 			if (g.addr<g.attrs.length-1){
 				g.addr++
 			}
 			break
 			case 40:
-			//down
 			if (g.attrs.length>1){
 				g.attrs.pop()
 				if (g.addr>=g.attrs.length){
@@ -294,56 +280,30 @@ function keyPressed() {
 	else{
 		if (keyCode==82){
 			g.g.clear()
-			//r
 		}
 		if (keyCode==13){
-			//enter
 			saveCanvas('compiterator.png')
 		}
-		if (keyCode==90){
-			//z
-			g.ren=!g.ren
-		}
 		if (keyCode==66){
-			//b
 			g.col++
-			if(g.col>=5){
+			if(g.col>=g.colm){
 			g.col=0
 			}
 			g.g.clear()
 		}
 		if (keyCode==69){
-			//e
-			g.e=mod(g.e+1,2)
-		}
-		if (keyCode==72){
-			//h
-			for (var i=0;i<g.attrs.length;i++){
-				g.attrs[i]=shuffle(g.attrs[i])
-			}
-		}
-		if (keyCode==75){
-			//k
-			g.attrs = shuffle(g.attrs)
+			g.e=mod(g.e+1,g.em)
 		}
 		if (keyCode==78){
-			//n
 			g.excn=mod(g.excn+1,g.set.length+2)
 		}
 		if (keyCode==77){
-			//m
 			g.excl=mod(g.excl+1,g.attrs.length+2)
 		}
-		if (keyCode==87){
-			//w
-			g.mfix=mod(g.mfix+1,4)
-		}
 		if (keyCode==188&&g.mem){
-			//<,
 			g.mem--
 		}
 		if (keyCode==190){
-			//>.
 			g.mem++
 		}
 	}
