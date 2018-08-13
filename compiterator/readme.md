@@ -1,3 +1,5 @@
+## Controls
+
 * `space`: Toggle RENDER/EDIT modes     
 --EDIT--   
 * `L alt` **`HOLD`** + `L mouse`: Add node 
