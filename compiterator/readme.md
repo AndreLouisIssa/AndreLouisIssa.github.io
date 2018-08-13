@@ -65,6 +65,8 @@ This program completes 500 iterations a frame.
    Each iteration in the chosen layer a single node is chosen at random, it also can include the node that was previously selected.  
 What layers and nodes can be selected in relevance to the previously selected layers and nodes can be changed.   
 There are two algorithms for the iteration:
-1. The iterated point moves on a linear interpolation to the chosen node with a complex parameter.
+1. The iterated point moves on a linear interpolation to the chosen node with a complex parameter.     
+The parameter, based on the screen position, is mapped from the whole plane into the unit disk.
 1. The iterated point moves by a rotation of a constant complex vector towards the chosen node.
-The image is coloured based on previous iterations to highlight the fractal elements of the image such as the self-similarities and symmetries.
+The image is coloured based on previous iterations to highlight the fractal elements of the image such as the self-similarities and symmetries.     
+The parameter, based on the screen position, is mapped in the reals by an exponential and in the imaginary by a branched logarithm.
