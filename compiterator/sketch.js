@@ -16,11 +16,13 @@ function setup() {
 	]
 	g.reps = 500
 	g.prob = 0.5
+	g.regen = 1
 	//Stuff you shouldn't change
 	g.cr = 1
 	g.radi = 10
 	g.scali = 360
 	g.pnt = createVector(0,0)
+	g.trk = createVector(0,0)
 	createCanvas(windowWidth*g.cr,windowHeight*g.cr)
 	g.g = createGraphics(width,height)
 	t = min(width,height)/(1080*g.cr)
@@ -45,6 +47,9 @@ function setup() {
 	g.mem=1
 	g.mfix=0
 	g.ren=1
+	g.errn=0
+	g.eerl=0
+	g.shift=0
 }
 
 function iterate() {
@@ -74,6 +79,18 @@ function iterate() {
 			x3 = x2+(x0*x1-y0*y1)/R
 			y3 = y2+(x0*y1+x1*y0)/R
 		break
+		case 2:
+			x0 = g.t.x*2
+			y0 = g.t.y*2
+			x1 = g.attr.x
+			y1 = g.attr.y
+			x2 = g.pnt.x
+			y2 = g.pnt.y
+			R = sqrt(x2*x2+y2*y2)
+			T = atan2(y2,x2)
+			x3 = x1+pow(R,x0)*exp(-y0*T)*cos(T*x0+y0*log(R))
+			y3 = y1+pow(R,x0)*exp(-y0*T)*sin(T*x0+y0*log(R))
+		break
 		default:
 			x1 = g.attr.x
 			y1 = g.attr.y
@@ -90,9 +107,76 @@ function mod(a,b){
 	return a-b*int(a/b)
 }
 
+function mout(x,y,a){
+	switch(g.mfix){
+		case 1:
+			g.colx=(x-g.x)/g.scal
+			g.coly=-(y-g.y)/g.scal
+		break
+		case 2:
+			g.pnt.x=(x-g.x)/g.scal
+			g.pnt.y=-(y-g.y)/g.scal
+		break
+		case 3:
+			if (a==1){
+				g.trk.x=x/g.scal
+				g.trk.y=-y/g.scal
+			}
+			else{
+				g.pnt.x+=(x-g.x)/g.scal
+				g.pnt.y+=-(y-g.y)/g.scal
+			}
+		break
+		case 4:
+			g.regen=(1+(x-g.x)/g.scal)/2
+			g.prob=(1+-(y-g.y)/g.scal)/2
+		case 5:
+			g.epnt.x=(x-g.x)/g.scal
+			g.epnt.y=-(y-g.y)/g.scal
+		break
+		default:
+			g.t.x=(x-g.x)/g.scal
+			g.t.y=-(y-g.y)/g.scal
+	}
+} 
+
+function mget(){
+	var x=0.0
+	var y=0.0
+	switch(g.mfix){
+		case 1:
+			x=g.colx*g.scal+g.x
+			y=g.coly*-g.scal+g.y
+		break
+		case 2:
+			x=g.pnt.x*g.scal+g.x
+			y=g.pnt.y*-g.scal+g.y
+		break
+		case 3:
+			x=g.trk.x
+			y=g.trk.y
+		break
+		case 4:
+			x=(g.regen*2-1)*g.scal+g.x
+			y=-(g.prob*-2+1)*g.scal+g.y
+			print(x,y)
+			print(g.regen,g.prob)
+		case 5:
+			x=g.epnt.x*g.scal+g.x
+			y=g.epnt.y*-g.scal+g.y
+		break
+		default:
+			x=g.t.x*g.scal+g.x
+			y=g.t.y*-g.scal+g.y
+	}
+	return createVector(x,y)
+}
+
 function draw() {
 	background(0)
 	translate(g.x,g.y)
+	var tepnt=g.attrs[g.addr]
+	g.epnt=tepnt[tepnt.length-1]
 	if (g.edit) {
 		len = g.attrs.length
 		brk = []
@@ -124,26 +208,16 @@ function draw() {
 	}
 	else { 
 		for (var i = 0;i<g.reps/(g.mem+(g.mem==0));i++){
-			ph=g.pnt.copy()
-			if(mouseIsPressed){
-				switch(g.mfix){
-					case 1:
-						g.colx=(mouseX-g.x)/g.scal
-						g.coly=-(mouseY-g.y)/g.scal
-					break
-					case 2:
-						g.pnt.x=(mouseX-g.x)/g.scal
-						g.pnt.y=-(mouseY-g.y)/g.scal
-					break
-					case 3:
-						g.pnt.x+=(mouseX-g.x)/g.scal
-						g.pnt.y+=-(mouseY-g.y)/g.scal
-					break
-					default:
-						g.t.x=(mouseX-g.x)/g.scal
-						g.t.y=-(mouseY-g.y)/g.scal
-				}
+			if(random()>g.regen){
+				g.pnt.x = 2*random()-1
+				g.pnt.y = 2*random()-1
 			}
+			g.ph=g.pnt.copy()
+			ph = g.pnt.copy()
+			if(mouseIsPressed){
+				mout(mouseX,mouseY,0)
+			}
+			g.pnt.add(g.trk) 
 			if(g.ren){
 			for(var m=0;m<(g.mem+(g.mem==0));m++){
 			if (random(1)>g.prob){
@@ -158,7 +232,7 @@ function draw() {
 					}
 					for (var k=0;k<g.attrs.length;k++){
 						a=g.attrs[k]
-						if(k!=mod(ind+g.excl-1,g.attrs.length+1)){
+						if(k!=mod(ind+g.excl-1,g.attrs.length+g.errl)){
 							_set.push(g.attrs[k])
 						}
 					}
@@ -179,7 +253,7 @@ function draw() {
 				}
 				for (var k=0;k<g.set.length;k++){
 					a=g.set[k]
-					if(k!=mod(ind+g.excn-1,g.set.length+1)){
+					if(k!=mod(ind+g.excn-1,g.set.length+g.errn)){
 					_set.push(g.set[k])
 					}
 				}
@@ -193,6 +267,7 @@ function draw() {
 			if(g.mem==0){
 				ph=g.pnt.copy()
 			}
+			g.ph=g.pnt.copy()
 			var cp=g.pnt.copy().sub(createVector(g.colx,g.coly))
 			var cph=ph.sub(createVector(g.colx,g.coly))
 			switch(g.col){
@@ -248,17 +323,66 @@ function windowResized() {
 	g.rad = g.radi*t
 	g.x = width/2
 	g.y = height/2
-	textSize(20*t)
+	textSize(20*t) 
 	g.g.colorMode(HSB,360)
 	g.g.noStroke()
 }
 
 function keyPressed() {
 	print(keyCode)
-
 	if (keyCode==32){
+		//space
 		g.edit = !g.edit
 		g.g.clear()
+	}
+	var l=mget()
+	if (keyCode==87){
+		//w
+		mout(l.x,l.y-g.scal/20,1)
+	}
+	if (keyCode==65){
+		//a
+		mout(l.x-g.scal/20,l.y,1)
+	}
+	if (keyCode==83){
+		//s
+		mout(l.x,l.y+g.scal/20,1)
+	}
+	if (keyCode==68){
+		//d
+		mout(l.x+g.scal/20,l.y,1)
+	}
+	if (keyCode==192){
+		//`
+		g.mfix=mod(g.mfix+1,5)
+	}
+	if (keyCode==49){
+		//1
+		g.mfix=0
+	}
+	if (keyCode==50){
+		//2
+		g.mfix=1
+	}
+	if (keyCode==51){
+		//3
+		g.mfix=2
+	}
+	if (keyCode==52){
+		//4
+		g.mfix=3
+	}
+	if (keyCode==53){
+		//5
+		g.mfix=4
+	}
+	if (keyCode==54){
+		//5
+		g.mfix=5
+	}
+	if (keyCode==16){
+		//shift
+		g.shift=!g.shift
 	}
 	if (g.edit){
 		switch (keyCode){
@@ -300,8 +424,8 @@ function keyPressed() {
 			//enter
 			saveCanvas('compiterator.png')
 		}
-		if (keyCode==90){
-			//z
+		if (keyCode==81){
+			//q
 			g.ren=!g.ren
 		}
 		if (keyCode==66){
@@ -314,7 +438,7 @@ function keyPressed() {
 		}
 		if (keyCode==69){
 			//e
-			g.e=mod(g.e+1,2)
+			g.e=mod(g.e+1,3)
 		}
 		if (keyCode==72){
 			//h
@@ -328,15 +452,21 @@ function keyPressed() {
 		}
 		if (keyCode==78){
 			//n
-			g.excn=mod(g.excn+1,g.set.length+2)
+			if(g.shift){
+				g.errn=!g.errn
+			}
+			else{
+				g.excn=mod(g.excn+1,g.set.length+2)
+			}
 		}
 		if (keyCode==77){
 			//m
-			g.excl=mod(g.excl+1,g.attrs.length+2)
-		}
-		if (keyCode==87){
-			//w
-			g.mfix=mod(g.mfix+1,4)
+			if(g.shift){
+				g.errl=!g.errl
+			}
+			else{
+				g.excl=mod(g.excl+1,g.attrs.length+2)
+			}
 		}
 		if (keyCode==188&&g.mem){
 			//<,

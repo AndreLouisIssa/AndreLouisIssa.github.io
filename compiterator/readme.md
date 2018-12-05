@@ -1,3 +1,23 @@
+## BETA CONTROL CHANGES
+
+use the number keys to change the mouse modes
+
+1 -> parameter, 2 -> colour, 3 -> point iteration, 4-> cluster iteration, 5-> probability settings
+
+Don't mess with 5 very much or you might break the image fidelity and turn into a sad noise.
+
+E has a third mode, move points close to the origin/center to see any noticable shapes,
+ use limited numbers of points and few layers, optimum is 1 layer, 3 points, about 1/5th page distance from the origin
+
+Press shift to toggle changing the functionality of N and M to toggling exclusion fix (by default on),
+to generate images possible in the legacy version that weren't accurate to the idea behind the exclusion modes initially.
+
+PROBABILITY NOTES:
+
+random points are introduced into the cycles based on the probability mode, 
+This generation of new points is necessary for the third image mode to generate any notable image at all
+so you will need to interact with the 5th mouse mode if you intend to use the third iteration mode.
+
 ## Controls
 
 * `space`: Toggle RENDER/EDIT modes     
