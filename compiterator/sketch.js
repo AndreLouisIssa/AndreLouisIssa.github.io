@@ -48,7 +48,7 @@ function setup() {
 	g.mfix=0
 	g.ren=1
 	g.errn=0
-	g.eerl=0
+	g.errl=0
 	g.shift=0
 }
 
@@ -232,7 +232,7 @@ function draw() {
 					}
 					for (var k=0;k<g.attrs.length;k++){
 						a=g.attrs[k]
-						if(k!=mod(ind+g.excl-1,g.attrs.length+g.errl)){
+						if(k!=mod(ind+g.excl-1,g.attrs.length+g.errl+(g.excl==1))){
 							_set.push(g.attrs[k])
 						}
 					}
@@ -253,7 +253,7 @@ function draw() {
 				}
 				for (var k=0;k<g.set.length;k++){
 					a=g.set[k]
-					if(k!=mod(ind+g.excn-1,g.set.length+g.errn)){
+					if(k!=mod(ind+g.excn-1,g.set.length+g.errn+(g.excn==1))){
 					_set.push(g.set[k])
 					}
 				}
