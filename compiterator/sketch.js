@@ -1,4 +1,4 @@
-var g = {}
+let g = {}
 
 function setup() {
 	//Stuff you can change
@@ -130,6 +130,7 @@ function mout(x,y,a){
 		case 4:
 			g.regen=(1+(x-g.x)/g.scal)/2
 			g.prob=(1+-(y-g.y)/g.scal)/2
+		break
 		case 5:
 			g.epnt.x=(x-g.x)/g.scal
 			g.epnt.y=-(y-g.y)/g.scal
@@ -141,8 +142,8 @@ function mout(x,y,a){
 } 
 
 function mget(){
-	var x=0.0
-	var y=0.0
+	let x=0.0
+	let y=0.0
 	switch(g.mfix){
 		case 1:
 			x=g.colx*g.scal+g.x
@@ -159,8 +160,7 @@ function mget(){
 		case 4:
 			x=(g.regen*2-1)*g.scal+g.x
 			y=-(g.prob*-2+1)*g.scal+g.y
-			print(x,y)
-			print(g.regen,g.prob)
+		break
 		case 5:
 			x=g.epnt.x*g.scal+g.x
 			y=g.epnt.y*-g.scal+g.y
@@ -175,16 +175,16 @@ function mget(){
 function draw() {
 	background(0)
 	translate(g.x,g.y)
-	var tepnt=g.attrs[g.addr]
+	let tepnt=g.attrs[g.addr]
 	g.epnt=tepnt[tepnt.length-1]
 	if (g.edit) {
 		len = g.attrs.length
 		brk = []
 		brek = 1
-		for (var i=0;i<len;i++) {
+		for (let i=0;i<len;i++) {
 			attrs = g.attrs[i]
 			len2 = attrs.length
-			for (var k=0;k<len2;k++) {
+			for (let k=0;k<len2;k++) {
 				attr = attrs[k]
 				brek = 1
 				if(mouseIsPressed){
@@ -202,15 +202,14 @@ function draw() {
 				}
 			}
 		}
-		for (var i = 0; i<brk.length;i++){
+		for (let i = 0; i<brk.length;i++){
 		g.attrs[brk[i][0]].splice(brk[i][1],1)
 		}
 	}
 	else { 
-		for (var i = 0;i<g.reps/(g.mem+(g.mem==0));i++){
+		for (let i = 0;i<g.reps/(g.mem+(g.mem==0));i++){
 			if(random()>g.regen){
-				g.pnt.x = 2*random()-1
-				g.pnt.y = 2*random()-1
+				regen()
 			}
 			g.ph=g.pnt.copy()
 			ph = g.pnt.copy()
@@ -219,18 +218,18 @@ function draw() {
 			}
 			g.pnt.add(g.trk) 
 			if(g.ren){
-			for(var m=0;m<(g.mem+(g.mem==0));m++){
+			for(let m=0;m<(g.mem+(g.mem==0));m++){
 			if (random(1)>g.prob){
 				if((g.excl!=0) && g.attrs.length>1){
 					_set = []
 					ind = g.attrs.length
-					for (var k=0;k<g.attrs.length;k++){
+					for (let k=0;k<g.attrs.length;k++){
 						a=g.attrs[k]
 						if(a==g.set){
 						ind = k
 						}
 					}
-					for (var k=0;k<g.attrs.length;k++){
+					for (let k=0;k<g.attrs.length;k++){
 						a=g.attrs[k]
 						if(k!=mod(ind+g.excl-1,g.attrs.length+g.errl+(g.excl==1))){
 							_set.push(g.attrs[k])
@@ -245,13 +244,13 @@ function draw() {
 			if((g.excn!=0) && g.set.length>1){
 				_set = []
 				ind = g.set.length
-				for (var k=0;k<g.set.length;k++){
+				for (let k=0;k<g.set.length;k++){
 					a=g.set[k]
 					if(a==g.attr){
 					ind = k
 					}
 				}
-				for (var k=0;k<g.set.length;k++){
+				for (let k=0;k<g.set.length;k++){
 					a=g.set[k]
 					if(k!=mod(ind+g.excn-1,g.set.length+g.errn+(g.excn==1))){
 					_set.push(g.set[k])
@@ -268,8 +267,8 @@ function draw() {
 				ph=g.pnt.copy()
 			}
 			g.ph=g.pnt.copy()
-			var cp=g.pnt.copy().sub(createVector(g.colx,g.coly))
-			var cph=ph.sub(createVector(g.colx,g.coly))
+			let cp=g.pnt.copy().sub(createVector(g.colx,g.coly))
+			let cph=ph.sub(createVector(g.colx,g.coly))
 			switch(g.col){
 				case 1:
 					h = cph.heading()
@@ -328,14 +327,20 @@ function windowResized() {
 	g.g.noStroke()
 }
 
+function regen() {
+	g.pnt.x = 2*random()-1
+	g.pnt.y = 2*random()-1
+}
+
 function keyPressed() {
 	print(keyCode)
 	if (keyCode==32){
 		//space
 		g.edit = !g.edit
+		regen()
 		g.g.clear()
 	}
-	var l=mget()
+	let l=mget()
 	if (keyCode==87){
 		//w
 		mout(l.x,l.y-g.scal/20,1)
@@ -354,7 +359,7 @@ function keyPressed() {
 	}
 	if (keyCode==192){
 		//`
-		g.mfix=mod(g.mfix+1,5)
+		g.mfix=mod(g.mfix+1,6)
 	}
 	if (keyCode==49){
 		//1
@@ -377,7 +382,7 @@ function keyPressed() {
 		g.mfix=4
 	}
 	if (keyCode==54){
-		//5
+		//6
 		g.mfix=5
 	}
 	if (keyCode==16){
@@ -417,8 +422,10 @@ function keyPressed() {
 	}
 	else{
 		if (keyCode==82){
-			g.g.clear()
 			//r
+			regen()
+			g.g.clear()
+			
 		}
 		if (keyCode==13){
 			//enter
@@ -442,7 +449,7 @@ function keyPressed() {
 		}
 		if (keyCode==72){
 			//h
-			for (var i=0;i<g.attrs.length;i++){
+			for (let i=0;i<g.attrs.length;i++){
 				g.attrs[i]=shuffle(g.attrs[i])
 			}
 		}
