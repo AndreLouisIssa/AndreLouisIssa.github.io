@@ -27,7 +27,7 @@
 ### Javascript
 
 [Compiterator](compiterator/index.html)
-([How to use it](https://github.com/MagicGonads/MagicGonads.github.io/wiki/Compiterator:-The-Chaos-Game)) ([Download](https://github.com/MagicGonads/MagicGonads.github.io/releases/tag/1.6.2))[UPDATED! New Location](https://github.com/AEFGP/AEFGP.github.io/wiki/Compiterator:-The-Chaos-Game)
+([How to use it](https://github.com/MagicGonads/MagicGonads.github.io/wiki/Compiterator:-The-Chaos-Game)) ([Download](https://github.com/MagicGonads/MagicGonads.github.io/releases/tag/1.6.2)) -- [UPDATED! New Location](https://github.com/AEFGP/AEFGP.github.io/wiki/Compiterator:-The-Chaos-Game)
 
 [Mandelbrot](compset/index.html)
 
