@@ -77,7 +77,7 @@ setTimeout(function() {
     let nodeSave = document.createElement ('span');
     nodeSave.setAttribute ('id', 'cstore');
     nodeSave.setAttribute ('role', 'button');
-    nodeSave.setAttribute ('class', "btn btn-success btn-sm");
+    nodeSave.setAttribute ('class', "btn btn-warning btn-sm");
     nodeSave.innerHTML = "<div style = \"font-size: 125%; position: relative; left:0%; top:-30%\">=</div>";
     nodeSave.setAttribute ('style',"position: relative; width:15%; left:5%; top:-58.5%; height:1%");
     anchor.appendChild(nodeSave);
