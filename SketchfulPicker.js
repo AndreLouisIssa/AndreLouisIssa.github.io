@@ -23,7 +23,6 @@ setTimeout(function() {
     'use strict';
 
     const COLMAX = 39;
-    const PCOLHIGHLIGHT = "currentcolor";
     const PCOLDEFAULT = "radial-gradient(#000,#FFF)";
 
     let palettes = [
@@ -50,6 +49,14 @@ setTimeout(function() {
             return ("0" + parseInt(x).toString(16)).slice(-2);
         }
         return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    }
+
+    function invert(rgb) {
+        rgb = Array.prototype.join.call(arguments).match(/(-?[0-9\.]+)/g);
+        for (var i = 0; i < rgb.length; i++) {
+            rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+        }
+        return "rgb("+rgb+")";
     }
 
     document.getElementById("gameToolsColorPreview").setAttribute ('style',"position: relative; top:-25px");
@@ -104,7 +111,7 @@ setTimeout(function() {
             pj=(pj+1)%(palettes[palettes.length-1].length);
             if (i == palettes.length-1) {
                 var pcol = document.getElementsByClassName("gameToolsColor")[pj].style.background;
-                document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol+"; border-color:"+PCOLHIGHLIGHT);
+                document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol+"; border-color:"+invert(pcol));
             }
         }
     }
@@ -116,7 +123,7 @@ setTimeout(function() {
         }
         var pcol = document.getElementsByClassName("gameToolsColor")[pj].style.background;
         if (i == palettes.length-1) {
-            document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol+"; border-color:"+PCOLHIGHLIGHT);
+            document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol+"; border-color:"+invert(pcol));
         }
         else {
             document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol);
@@ -130,7 +137,7 @@ setTimeout(function() {
         }
         var pcol = document.getElementsByClassName("gameToolsColor")[pj].style.background;
         if (i == palettes.length-1) {
-            document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol+"; border-color:"+PCOLHIGHLIGHT);
+            document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol+"; border-color:"+invert(pcol));
         }
         else {
             document.getElementsByClassName("gameToolsColor")[pj].setAttribute("style","background:"+pcol);
