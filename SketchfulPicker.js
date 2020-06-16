@@ -12,7 +12,7 @@ How to use:
 - Install the script
 - Load sketchful.io
 - Go into free draw
-- Reload until there's a box at the top that displays `FFFFFF
+- Reload until there's a box that displays "FFFFFF"
 (if it displays `ffffff` it's broken)
 - Join a game (you can skip the previous two steps if you are confident it will work anyway)
 
