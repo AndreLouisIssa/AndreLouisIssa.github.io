@@ -115,6 +115,8 @@ setTimeout(function() {
     let i = 0;
     let j = 0;
     let pj = 0;
+    nodes[pj].setAttribute("style","background:"+palettes[i][pj]+"; border-color:"+invert(palettes[i][pj]));
+
 
     function clickedSwatch(k){
         console.log("page "+i+" node "+k+":"+rgb2hex(nodes[k].style.background));
