@@ -56,28 +56,37 @@ setTimeout(function() {
     zNode.setAttribute ('id', 'picker');
     zNode.setAttribute ('class', "jscolor {mode:\"HVS\"}");
     zNode.setAttribute ('value',"ffffff")
-    zNode.setAttribute ('style',"position: relative; text-align: center; width:50%; top:-29.5%; height:30%; border:1px solid black");
+    zNode.setAttribute ('style',"position: relative; text-align: center; width:30%; top:-29.5%; height:30%; border:1px solid black");
     document.getElementById("gameToolsColors").appendChild(zNode);
 
     zNode = document.createElement ('span');
     zNode.setAttribute ('id', 'cstore');
     zNode.setAttribute ('role', 'button');
-    zNode.setAttribute ('class', "btn btn-success");
-    zNode.innerHTML = "<div style = \"font-size: 85%; position: relative; left:-30%; top:-30%\">Save</div>";
-    zNode.setAttribute ('style',"position: relative; width:17.5%; left:5%; top:-58.5%; height:12.5%");
+    zNode.setAttribute ('class', "btn btn-success btn-sm");
+    zNode.innerHTML = "<div style = \"font-size: 125%; position: relative; left:0%; top:-30%\">+</div>";
+    zNode.setAttribute ('style',"position: relative; width:15%; left:5%; top:-58.5%; height:10%");
     document.getElementById("gameToolsColors").appendChild(zNode);
 
     zNode = document.createElement ('span');
-    zNode.setAttribute ('id', 'cpage');
+    zNode.setAttribute ('id', 'cppage');
     zNode.setAttribute ('role', 'button');
-    zNode.setAttribute ('class', "btn btn-success");
-    zNode.innerHTML = "<div style = \"font-size: 85%; position: relative; left:-30%; top:-30%\">Next</div>";
-    zNode.setAttribute ('style',"position: relative; width:17.5%; left:10%; top:-58.5%; height:12.5%");
+    zNode.setAttribute ('class', "btn btn-danger btn-sm");
+    zNode.innerHTML = "<div style = \"font-size: 125%; position: relative; left:-30%; top:-30%\">\<</div>";
+    zNode.setAttribute ('style',"position: relative; width:10%; left:10%; top:-58.5%; height:10%");
+    document.getElementById("gameToolsColors").appendChild(zNode);
+
+    zNode = document.createElement ('span');
+    zNode.setAttribute ('id', 'cnpage');
+    zNode.setAttribute ('role', 'button');
+    zNode.setAttribute ('class', "btn btn-primary btn-sm");
+    zNode.innerHTML = "<div style = \"font-size: 125%; position: relative; left:-30%; top:-30%\"\>></div>";
+    zNode.setAttribute ('style',"position: relative; width:10%; left:10%; top:-58.5%; height:105%");
     document.getElementById("gameToolsColors").appendChild(zNode);
 
     var gp = document.getElementById('picker')
     document.getElementById('cstore').addEventListener("click", makeColour, false);
-    document.getElementById('cpage').addEventListener("click", nextPage, false);
+    document.getElementById('cppage').addEventListener("click", prevPage, false);
+    document.getElementById('cnpage').addEventListener("click", nextPage, false);
 
     var i = 0;
     var j = 0;
@@ -92,10 +101,18 @@ setTimeout(function() {
         }
     }
 
+    function prevPage(zEvent){
+        i = (i-1+palettes.length)%palettes.length;
+        for (pj = 0; pj < COLMAX; pj++) {
+            document.getElementsByClassName("gameToolsColor")[pj].style.background = palettes[i][pj];
+        }
+    }
+
     function nextPage(zEvent){
         i = (i+1)%palettes.length;
         for (pj = 0; pj < COLMAX; pj++) {
             document.getElementsByClassName("gameToolsColor")[pj].style.background = palettes[i][pj];
         }
     }
+
 }, 0);
