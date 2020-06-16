@@ -150,12 +150,6 @@ setTimeout(function() {
             nodes[j].style.background = palettes[i][j];
         }
         let pcol = nodes[pj].style.background;
-        if (i == palettes.length-1) {
-            nodes[pj].setAttribute("style","background:"+pcol+"; border-color:"+invert(pcol));
-        }
-        else {
-            nodes[pj].setAttribute("style","background:"+pcol);
-        }
     }
 
     function nextPage(zEvent){
@@ -164,12 +158,6 @@ setTimeout(function() {
             nodes[j].style.background = palettes[i][j];
         }
         let pcol = nodes[pj].style.background;
-        if (i == palettes.length-1) {
-            nodes[pj].setAttribute("style","background:"+pcol+"; border-color:"+invert(pcol));
-        }
-        else {
-            nodes[pj].setAttribute("style","background:"+pcol);
-        }
     }
 
 }, 0);
