@@ -60,7 +60,7 @@ setTimeout(function() {
     }
 
     document.getElementById("gameToolsColorPreview").setAttribute('style',"position: relative; top:-32px");
-    setInterval( function() { document.getElementById("gameChat").setAttribute('style',"height: calc(100% - 210px);"); }, 1500);
+    //setInterval( function() { document.getElementById("gameChat").setAttribute('style',"height: calc(100% - 210px);"); }, 1500);
 
     let anchor = document.getElementById("gameToolsColors");
 
