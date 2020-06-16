@@ -149,7 +149,7 @@ setTimeout(function() {
         for (j = 0; j < nodes.length; j++) {
             nodes[j].style.background = palettes[i][j];
         }
-        let pcol = nodes[pj].style.background;
+        nodes[pj].setAttribute("style","background:"+palettes[i][pj]+"; border-color:"+invert(palettes[i][pj]));
     }
 
     function nextPage(zEvent){
@@ -157,7 +157,7 @@ setTimeout(function() {
         for (j = 0; j < nodes.length; j++) {
             nodes[j].style.background = palettes[i][j];
         }
-        let pcol = nodes[pj].style.background;
+        nodes[pj].setAttribute("style","background:"+palettes[i][pj]+"; border-color:"+invert(palettes[i][pj]));
     }
 
 }, 0);
