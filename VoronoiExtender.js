@@ -10,7 +10,7 @@
 
 (function() {
     document.getElementById("settings").innerHTML += `
-<span class="inputLabel">Level Curve (X(s or a),Y(s or a))</span>
+<span class="inputLabel">Level Curve (a,s) -> (X,Y)</span>
 <input type="text" style="width: 90%; margin: auto;" id="user-math-2" value="Math.pow(Math.pow(Math.cos(a),2),1/2)*Math.sign(Math.cos(a))" onfocus="typing()" onblur="doneTyping2()" onchange="reset()">
 <input type="text" style="width: 90%; margin: auto;" id="user-math-3" value="Math.pow(Math.pow(Math.sin(a),2),1/2)*Math.sign(Math.sin(a))" onfocus="typing()" onblur="doneTyping3()" onchange="reset()">
 <span class="inputLabel">Cone Rotation</span>
