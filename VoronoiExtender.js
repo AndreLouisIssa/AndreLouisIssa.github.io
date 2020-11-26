@@ -82,7 +82,7 @@ window.paraY = window.getUserVFunc3([Math.random(), Math.random(), Math.random()
 window.downloadCanvasImage = function() {
     window.reset();
     const a = document.createElement('a');
-    a.download = 'Voranoi.png';
+    a.download = 'Voronoi.png';
     a.href = window.$('main-canvas').toDataURL();
     a.click();
     a.parentNode.removeChild(a);
