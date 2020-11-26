@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Interactive Voranoi Generator Extender
+// @name         Interactive Voronoi Generator Extender
 // @namespace    http://tampermonkey.net/
 // @version      1.0
-// @description  Extends the Voranoi Generator to more metrics with decent interactivity
+// @description  Extends the Voronoi Generator to more metrics with decent interactivity
 // @author       Andre Issa
 // @match        http://alexbeutel.com/webgl/voronoi.html
 // @grant        none
