@@ -1728,45 +1728,45 @@ function draw_conformal_map(
   // complex number value.
   function grid_color(z) {
     var r = z.r, j = z.i;
+	if (r == 0 && j == 0)
+		return [255, 255, 255]
     var r2 = r*r;
     var j2 = j*j;
     var dist2 = r2 + j2;
-    var light = 1;//1 - Math.abs((Math.floor(r*16) + Math.floor(j*16))) % 2;
-    var ring = 0;
-    if (dist2 <= 1.12890625 && dist2 >= 0.87890625) {
-      ring = 2;
+    //var light = 1;//1 - Math.abs((Math.floor(r*16) + Math.floor(j*16))) % 2;
+    //var ring = 0;
+    //if (dist2 <= 1.12890625 && dist2 >= 0.87890625) {
+    //  ring = 2;
      //else if (dist2 <= 0.00390625) {
       //return light ? [0,0,0] : [0xff,0xff,0xff];  // ring at 0
      //else if (dist2 >= 256) {
       //if ((r >= 0) != (j >= 0)) { return [32,32,32]; }
       //ring = 1;  // ring at infinity
-    } else if (!light) {
-      return [0,0,0];
-    }
+    //} //else if (!light) {
+    //  return [0,0,0];
+    //}
     var dist = Math.sqrt(dist2);
-    switch (ring) {
-    case 1:
+    //switch (ring) {
+    //case 1:
       // ring at infinity
-      var s = 256 * 16 / dist;
-      return hbsv2rgb(j, -r, 1, s);
-    case 2:
+    //  var s = 256 * 16 / dist;
+    //  return hbsv2rgb(j, -r, 1, s);
+    //case 2:
       // ring at unity
-      var j12 = (Math.abs(j) - 1) * (Math.abs(j) - 1);
-      var r12 = (Math.abs(r) - 1) * (Math.abs(r) - 1);
-      if (j2 > r2 ? r2 + j12 > 0.00390625 :
-                    r12 + j2 > 0.00390625) {
-        var gray = 170 - 85 * (octang(r, j) % 2) / 2;
+      //var j12 = (Math.abs(j) - 1) * (Math.abs(j) - 1);
+      //var r12 = (Math.abs(r) - 1) * (Math.abs(r) - 1);
+      //if (j2 > r2 ? r2 + j12 > 0.00390625 :
+                    //r12 + j2 > 0.00390625) {
+        //var gray = 170 - 85 * (octang(r, j) % 2) / 2;
         //return dist <= 1 ? [gray,gray,gray] : [gray+85,gray+85,gray+85];
-      }
-      if (!light) { return [0,0,0]; }
+      //}
+      //if (!light) { return [0,0,0]; }
       // fallthrough
-    default:
-	  if (dist < 1)
-	  {
-	    return hbsv2rgb(j, -r, dist, 256)
-	  }
-      return hbsv2rgb(j, -r, 1, 256 / dist);
-    }
+    //default:
+	if (dist < 1)
+	  return hbsv2rgb(j, -r, dist, 255)
+    return hbsv2rgb(j, -r, 1, 255 / dist);
+    //}
   }
 
   // input: h in [0,360] and s,v in [0,1] - output: r,g,b in [0,1]
